@@ -1,0 +1,13 @@
+/* Keep the original layout and replace its equipped marker in the Chinese edition. */
+.item-cell.equipped::after { content: "裝"; }
+.slot-gs::before { content: "分數 "; }
+
+/* The card merchant uses the original scrollable NPC window in both orientations. */
+.offline-card-shop .ore-row { grid-template-columns:44px minmax(0,1fr); }
+.offline-card-shop .ore-row img { width:32px; height:44px; object-fit:contain; }
+.offline-card-shop .cand-info { min-width:0; overflow-wrap:anywhere; }
+.offline-card-shop .ore-buy { grid-column:2; flex-wrap:wrap; }
+.offline-card-shop .ro-btn, .offline-card-shop .inv-chip,
+.offline-card-detail .ro-btn { min-height:40px; }
+.offline-card-detail .tip-item { min-width:0; }
+.offline-card-detail .tip-card { display:block; width:180px; max-width:100%; height:auto; margin:0 auto 12px; }

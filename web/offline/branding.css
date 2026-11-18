@@ -1,0 +1,49 @@
+.classic-logo {
+  position:relative;
+  width:100%;
+  aspect-ratio:523 / 320;
+  overflow:hidden;
+  flex-shrink:0;
+  line-height:0;
+}
+/* The unchanged 648×450 PNG has visible pixels only within (63,72)–(586,392). */
+.classic-logo img {
+  position:absolute;
+  display:block;
+  width:calc(100% * 648 / 523);
+  max-width:none;
+  height:auto;
+  left:calc(-100% * 63 / 523);
+  top:-22.5%;
+}
+#splash .sp-logo { width:min(420px,100%); zoom:1; }
+#charselect > .brand { width:min(780px,calc((100vw - 32px) / var(--ui))); }
+#splash .classic-logo,
+body.sp-backdrop #charselect .brand-name.classic-logo { animation:none; }
+.sp-logo > small, .brand > small { display:block; margin-top:4px; }
+@media (orientation:landscape) and (max-height:600px) {
+  #splash .sp-logo { width:min(420px,100%,calc((100dvh - 120px) * 523 / 320)); }
+}
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px) {
+  #splash {
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    padding-left:max(14px,env(safe-area-inset-left,0px));
+    padding-right:max(14px,env(safe-area-inset-right,0px));
+  }
+}
+@media (orientation:portrait) and (max-height:700px) {
+  /* The offline splash has no footer needing the upstream 104px reservation. */
+  #splash {
+    grid-auto-rows:max-content;
+    gap:8px;
+    padding-bottom:max(24px,env(safe-area-inset-bottom,0px));
+  }
+  #splash .sp-card { max-height:none; }
+  #splash .sp-card .ro-title { padding:8px 12px; font-size:var(--fs-lg); }
+  #splash .sp-card .ro-body { padding:8px; gap:6px; }
+  #splash .sp-pane { gap:6px; }
+  #splash .sp-feat { padding:5px 8px; gap:8px; }
+  #splash .sp-feat img { width:24px; height:24px; }
+  #splash .sp-tabs button { padding:4px; }
+  #splash .sp-submit { min-height:44px; padding:8px 12px; margin:0; }
+}

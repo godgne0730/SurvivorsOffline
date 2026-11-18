@@ -1,0 +1,58 @@
+{
+  "name": "xmas",
+  "models": "models.json",
+  "ambient": "ambient.json",
+  "collision": {
+    "file": "walk.bin",
+    "w": 300,
+    "h": 360
+  },
+  "altitude": {
+    "file": "altitude.bin",
+    "w": 300,
+    "h": 360
+  },
+  "width": 150,
+  "height": 180,
+  "lightmapCell": 6,
+  "atlas": "atlas.png",
+  "cells": "cells.bin",
+  "heights": "heights.bin",
+  "walls": "walls.bin",
+  "zoom": 10,
+  "shadow": "shadow.png",
+  "light": "light.png",
+  "minimap": "minimap.png",
+  "textures": [
+    "필드바닥\\xmas_눈바닥01.bmp",
+    "필드바닥\\xmas_눈바닥02.bmp",
+    "필드바닥\\xmas_눈바닥06.bmp",
+    "필드바닥\\xmas_블럭01.bmp",
+    "필드바닥\\xmas_블럭02.bmp",
+    "필드바닥\\xmas_블럭03.bmp",
+    "필드바닥\\xmas_블럭11.bmp",
+    "필드바닥\\xmas_블럭06.bmp",
+    "필드바닥\\xmas_블럭12.bmp",
+    "필드바닥\\xmas_블럭04.bmp",
+    "필드바닥\\xmas_블럭05.bmp",
+    "기타마을\\xmas_ent06.bmp",
+    "필드바닥\\xmas_눈바닥04.bmp",
+    "기타마을\\xmas_brdg02.bmp",
+    "기타마을\\xmas_brdg01.bmp",
+    "필드바닥\\xmas_블럭09.bmp",
+    "필드바닥\\xmas_블럭10.bmp",
+    "필드바닥\\xmas_눈바닥03.bmp",
+    "필드바닥\\xmas_눈바닥05.bmp",
+    "필드바닥\\xmas_블럭07.bmp",
+    "필드바닥\\xmas_블럭08.bmp",
+    "기타마을\\xmas_ch01.bmp",
+    "기타마을\\x_house1_01.bmp",
+    "기타마을\\xmas_wp01.bmp",
+    "BLACK.BMP"
+  ],
+  "warps": [],
+  "start": [
+    150,
+    195
+  ]
+}

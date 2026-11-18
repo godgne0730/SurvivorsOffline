@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="zh-TW" translate="no">
+  <head><meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; worker-src 'self' blob:; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta charset="UTF-8" />
+    
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#8fa8de" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="仙境傳說倖存者" />
+    
+    <link rel="manifest" href="../app-manifest.json" crossorigin="use-credentials" />
+    <link rel="apple-touch-icon" href="offline/branding/classic-icon-180.png" />
+    <link rel="stylesheet" href="./assets/fonts/google-fonts.css" />
+    <title>仙境傳說倖存者</title>
+    
+    <meta name="description" content="仙境傳說風格的單機生存遊戲。角色、裝備與進度保存在本機，無須登入或連線。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="仙境傳說倖存者" />
+    <meta property="og:title" content="仙境傳說倖存者" />
+    <meta property="og:description" content="仙境傳說風格的單機生存遊戲。角色、裝備與進度保存在本機，無須登入或連線。" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script src="./offline/local-api.js"></script>
+<script type="module" crossorigin src="./offline/start.js"></script>
+    <link rel="modulepreload" crossorigin href="./build/soul_linker-BNTKE1pN.js">
+    <link rel="modulepreload" crossorigin href="./build/CanvasPool-Dcv6wVrq.js">
+    <link rel="modulepreload" crossorigin href="./build/TextStyle-DKa9RgUI.js">
+    <link rel="modulepreload" crossorigin href="./build/getPo2TextureFromSource-Co4pAohy.js">
+    <link rel="stylesheet" crossorigin href="./build/main-BT36rxL4.css">
+      <link rel="icon" type="image/png" sizes="192x192" href="offline/branding/classic-icon-192.png" />
+    <link rel="stylesheet" href="./offline/localization.css" />
+    <link rel="stylesheet" href="./offline/branding.css" />
+    <link rel="stylesheet" href="./offline/landscape.css" />
+  </head>
+  <body>
+    
+    
+    <div id="stage"></div>
+
+    <div id="run-labels"></div>
+    <div id="party-wait" class="hidden"></div>
+    <div id="loot-rolls"></div>
+    <div id="hud" class="hidden">
+      <div id="basic-info">
+        <div class="hud-portrait"><img id="hud-portrait" alt=""><span class="hud-lv">等級 <b id="lv">1</b></span></div>
+        <div class="hud-bars">
+          <div class="hud-name" id="hud-name">劍士</div>
+          <div class="bar hp"><div id="hp-fill"></div><span id="hp-text">0 / 0</span></div>
+          <div class="hud-exp"><span>EXP</span><div class="bar exp"><div id="exp-fill"></div></div><span id="exp-text">0.0%</span></div>
+        </div>
+      </div>
+      <div id="buffs"></div>
+      <div id="timer-box">
+        <div id="timer">00:00</div>
+        <div class="hud-chips">
+          <span class="chip" id="kills">☠ 0</span>
+          <span class="chip" id="zeny"><img id="zeny-icon" alt=""><span id="zeny-text">0</span><small id="chest-cost"></small></span>
+        </div>
+        <div id="weather"></div>
+        <button class="ro-btn small hidden" id="bank-btn" type="button"><span id="bank-label">升級</span> <b id="bank-n">0</b><kbd class="desktop-only">B</kbd></button>
+      </div>
+      <div id="minimap" class="ro-window">
+        <div class="ro-title"><span id="minimap-name"></span> <span id="minimap-coords"></span></div>
+        <canvas></canvas>
+      </div>
+      <div id="skillbar"></div>
+      <div id="runitems"></div>
+      <div id="toasts"></div>
+      <div id="boss-bar" class="hidden"></div>
+      <div id="announce"></div>
+      <div id="quest" class="hidden"><small>任務</small><b id="quest-text"></b></div>
+    </div>
+
+    <div id="story" class="hidden">
+      <div class="story-bar top"></div>
+      <div class="story-bar bottom"></div>
+      <div class="story-box">
+        <canvas id="story-face" width="96" height="96"></canvas>
+        <div class="story-body"><b id="story-name"></b><p id="story-text"></p></div>
+        <small class="story-next">▶ <span class="desktop-only">空白鍵 / 點擊</span></small>
+      </div>
+    </div>
+
+    <div id="lobby-ui" class="hidden">
+      <div id="lobby-labels"></div>
+      <div id="lobby-place"><b>普隆德拉</b><small>噴泉廣場</small><small id="lobby-online"></small></div>
+      <div id="lobby-actions">
+        <button class="ro-btn" id="lobby-friends">好友 <span id="lobby-friends-on" class="fr-badge on hidden"></span><span id="lobby-friends-n" class="fr-badge hidden"></span></button>
+        <button class="ro-btn" id="lobby-char">角色 <kbd class="desktop-only">C</kbd></button>
+        <button class="ro-btn" id="lobby-switch">切換角色 <kbd class="desktop-only">X</kbd></button>
+        <button class="ro-btn" id="lobby-options" aria-label="選項">⚙ <kbd class="desktop-only">Esc</kbd></button>
+      </div>
+      <button id="chat-toggle" class="touch-only hidden" aria-label="聊天">💬<span id="chat-unread" class="hidden"></span></button>
+      <div id="party-frame" class="hidden"></div>
+      <div id="lobby-chat" class="hidden">
+        <div id="chat-tabs"></div>
+        <div id="chat-log"></div>
+        <form id="chat-form" autocomplete="off">
+          <button type="button" id="chat-channel" class="chat-ch local" title="切換頻道（Tab）">頻道</button>
+          <input id="chat-input" type="text" enterkeyhint="send" placeholder="按 Enter 聊天" />
+          <button type="button" id="chat-emote" title="表情" aria-label="表情">☺</button>
+        </form>
+        <div id="emote-panel" class="hidden"></div>
+      </div>
+      <button id="lobby-prompt" class="hidden"></button>
+    </div>
+
+    <div id="npc-dialog" class="overlay hidden">
+      <div class="ro-window npc-window">
+        <div class="ro-title" id="npc-name"></div>
+        <div class="ro-body"><div id="npc-text" class="npc-text"></div></div>
+        <div class="btn-row pad" id="npc-options"></div>
+      </div>
+    </div>
+
+    
+    <div id="friends" class="overlay hidden">
+      <div class="ro-window friends-window">
+        <div class="ro-title">好友 <small id="fr-count"></small></div>
+        <div class="ro-body">
+          <form id="fr-form" autocomplete="off">
+            <input id="fr-name" type="text" maxlength="16" enterkeyhint="send" placeholder="角色名稱" />
+            <button class="ro-btn primary" type="submit">加入</button>
+          </form>
+          <div id="fr-msg" class="fr-msg"></div>
+          <div id="fr-body"></div>
+        </div>
+        <div class="btn-row pad"><span class="spacer"></span><button class="ro-btn" id="fr-close">關閉</button></div>
+      </div>
+    </div>
+
+    
+    <div id="inspect" class="overlay hidden">
+      <div class="ro-window inspect-window">
+        <div class="ro-title" id="ins-title"></div>
+        <div class="ro-body panel-body">
+          <div class="ins-head" id="ins-head"></div>
+          <div class="tabs ins-tabs">
+            <button class="tab-btn active" data-tab="equip">裝備</button>
+            <button class="tab-btn" data-tab="stats">狀態</button>
+            <button class="tab-btn" data-tab="job">職業</button>
+          </div>
+          <div id="ins-tab-equip" class="ins-tab">
+            <div class="ins-equip" id="ins-equip">
+              <div class="equip-col" id="ins-slots-left"></div>
+              <div class="equip-col" id="ins-slots-right"></div>
+            </div>
+            <div id="ins-detail" class="inv-box"></div>
+          </div>
+          <div id="ins-tab-stats" class="ins-tab off">
+            <div class="ins-stats">
+              <div class="status-box"><div class="box-title">素質</div><div id="ins-prim"></div></div>
+              <div class="status-box"><div class="box-title">本局中</div><div id="ins-derived" class="stat-grid"></div></div>
+              <div class="status-box"><div class="box-title">紀錄</div><div id="ins-record" class="ins-record"></div></div>
+            </div>
+          </div>
+          <div id="ins-tab-job" class="ins-tab off">
+            <div id="ins-trees" class="talent-trees"></div>
+            <div id="ins-job-detail" class="inv-box hidden"></div>
+          </div>
+        </div>
+        <div class="btn-row pad"><span class="spacer"></span><button class="ro-btn primary" id="ins-close">關閉</button></div>
+      </div>
+    </div>
+
+    
+    <div id="trade" class="overlay hidden">
+      <div class="ro-window trade-window">
+        <div class="ro-title" id="tr-title"></div>
+        <div class="ro-body panel-body">
+          <div class="tr-sides">
+            <div class="tr-side">
+              <div class="box-title">你提供 <span id="tr-my-state"></span></div>
+              <div id="tr-mine-items" class="item-grid tr-items"></div>
+              <label class="tr-kafra" hidden>卡普拉點數 <input id="tr-kafra" type="number" min="0" step="1" inputmode="numeric" /> <span id="tr-kafra-have" class="muted"></span></label>
+            </div>
+            <div class="tr-side">
+              <div class="box-title"><span id="tr-their-title"></span> <span id="tr-their-state"></span></div>
+              <div id="tr-theirs-items" class="item-grid tr-items"></div>
+              <div class="tr-kafra" id="tr-their-kafra" hidden></div>
+            </div>
+          </div>
+          <div id="tr-note" class="tr-note muted"></div>
+          <div class="inv-box tr-inv-box">
+            <div class="box-title">你的背包</div>
+            <div id="tr-filters" class="inv-filters"></div>
+            <div id="tr-inv" class="item-grid tr-inv"></div>
+          </div>
+          <div class="tr-chat">
+            <div id="tr-log" class="tr-log"></div>
+            <form id="tr-form" autocomplete="off"><input id="tr-input" type="text" maxlength="120" enterkeyhint="send" placeholder="寫訊息給對方…" /></form>
+          </div>
+        </div>
+        <div class="btn-row pad">
+          <button class="ro-btn" id="tr-cancel">取消</button><span class="spacer"></span>
+          <button class="ro-btn" id="tr-lock">確定</button>
+          <button class="ro-btn primary" id="tr-confirm">交易</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="charselect" class="overlay menu hidden">
+      <div class="brand"><div class="brand-name classic-logo"><img src="offline/branding/classic-logo.png" alt="RO 仙境傳說" /></div><small>仙境傳說倖存者</small></div>
+      <div class="ro-window select-window">
+        <div class="ro-title">角色選擇</div>
+        <div class="ro-body">
+          <div id="slots"></div>
+          <div id="slot-info" class="info-panel"></div>
+          <div class="btn-row">
+            <button class="ro-btn" id="btn-delete">刪除</button>
+            <button class="ro-btn" id="btn-options">⚙ 選項</button>
+            <span class="spacer"></span>
+            <button class="ro-btn" id="btn-create">建立</button>
+            <button class="ro-btn primary" id="btn-play">開始遊戲</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="profile-bar">
+        <button id="pb-portrait" title="更換頭像"><canvas width="128" height="128"></canvas><span class="pb-edit">✎</span></button>
+        <div class="pb-panel">
+          <div class="pb-name"><b id="pb-name">訪客</b> <small id="pb-kind"></small></div>
+          <div class="pb-ach"><span>成就</span><div class="bar exp"><div id="pb-ach-fill"></div></div><span id="pb-ach-text"></span></div>
+          <div class="pb-row">
+            <span class="pb-kafra" id="pb-kafra"></span><span class="spacer"></span>
+            <button class="ro-btn small primary" id="pb-register">建立帳號</button>
+            <button class="ro-btn small" id="pb-exit" title="返回標題畫面">離開</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    
+
+    
+    
+
+    
+    <div id="account-popup" class="overlay hidden">
+      <div class="ro-window acc-window">
+        <div class="ro-title">安全問題</div>
+        <div class="ro-body">
+          
+          <div class="acc-intro" id="acc-intro">
+            <b>保護你的帳號</b>
+            <p class="acc-why" id="acc-why-none">如果你願意，現在可以為帳號設定安全問題。</p>
+            <p class="acc-why" id="acc-why-reset">你用遊戲團隊提供的答案找回了帳號。如果你願意，現在可以設定自己的答案：我們提供的將會失效。</p>
+            <p>遊戲不會要求電子郵件。如果你哪天忘記密碼， <b>找回帳號的唯一方法</b> 就是完全照你現在選擇的方式回答這 5 個問題。</p>
+            <p><b>把答案寫在安全的地方</b> 或選擇你確定記得住的。</p>
+            <p>這是選填的，但 <b>如果你不要，就是永久的</b>：我們不會再提供，遺失密碼時也無法找回帳號。</p>
+          </div>
+          <form class="acc-section" id="acc-questions" autocomplete="off">
+            <fieldset class="sp-form">
+              <div class="rq-head">安全問題</div>
+              <div class="rq-list" data-questions></div>
+              <div class="sp-error" aria-live="polite"></div>
+              <div class="btn-row acc-q-buttons"><button class="ro-btn" type="button" id="acc-decline">我不要安全問題</button><span class="spacer"></span><button class="ro-btn primary" type="submit">儲存問題</button></div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="portrait-picker" class="overlay hidden">
+      <div class="ro-window pb-window">
+        <div class="ro-title">選擇你的頭像</div>
+        <div class="ro-body"><div id="pb-grid" class="pb-grid"></div></div>
+        <div class="btn-row pad"><span class="spacer"></span><button class="ro-btn primary" id="pb-close">關閉</button></div>
+      </div>
+    </div>
+
+    <div id="charcreate" class="overlay menu hidden">
+      <div class="ro-window create-window">
+        <div class="ro-title">建立角色</div>
+        <div class="ro-body create-body">
+          <div class="preview-col">
+            <canvas id="cc-preview" width="200" height="230"></canvas>
+            <div class="btn-row center">
+              <button class="ro-btn small" id="cc-rot-l" title="旋轉">⟲</button>
+              <button class="ro-btn small" id="cc-anim">待機</button>
+              <button class="ro-btn small" id="cc-rot-r" title="旋轉">⟳</button>
+            </div>
+            <div id="cc-jobinfo" class="info-panel"></div>
+          </div>
+          <div class="form-col">
+            <label class="field">名稱 <input id="cc-name" maxlength="16" autocomplete="off" spellcheck="false" /></label>
+            <div class="field">性別
+              <div class="seg"><button class="ro-btn small" data-gender="m">♂ 男性</button><button class="ro-btn small" data-gender="f">♀ 女性</button></div>
+            </div>
+            <div class="field">職業 <div id="cc-jobs"></div></div>
+            <div class="field">髮型
+              <div class="stepper"><button class="ro-btn small" id="cc-hair-prev">◀</button><span id="cc-hair">1</span><button class="ro-btn small" id="cc-hair-next">▶</button></div>
+            </div>
+            <div class="field">髮色 <div id="cc-haircolors" class="swatches"></div></div>
+            <div class="field">服裝顏色 <div id="cc-clothcolors" class="swatches"></div></div>
+            <div class="field">素質 <span class="cc-stat-left">剩餘點數： <b id="cc-stat-left">48</b></span>
+              <div id="cc-stats" class="cc-stats"></div>
+              <div id="cc-stat-desc" class="cc-stat-desc hidden"></div>
+            </div>
+            <div id="cc-error" class="error"></div>
+          </div>
+        </div>
+        <div class="btn-row pad">
+          <button class="ro-btn" id="cc-random">隨機</button>
+          <span class="spacer"></span>
+          <button class="ro-btn" id="cc-cancel">取消</button>
+          <button class="ro-btn primary" id="cc-ok">建立</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="charpanel" class="overlay menu hidden">
+      <div class="ro-window panel-window">
+        <div class="ro-title" id="cp-title">角色</div>
+        <div class="ro-body panel-body">
+          <div class="cp-header">
+            <b class="cp-lv" id="cp-level">基本等級 1</b>
+            <div class="bar exp cp-exp"><div id="cp-exp-fill"></div></div>
+            <div id="cp-exp-text" class="muted"></div>
+            <div id="cp-stat-points"></div>
+            <b class="cp-lv" id="cp-job-level">職業等級 1</b>
+            <div class="bar exp job cp-exp"><div id="cp-job-exp-fill"></div></div>
+            <div id="cp-job-exp-text" class="muted"></div>
+            <div id="cp-points"></div>
+          </div>
+          <div class="cp-tabrow">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="equip">裝備</button>
+            <button class="tab-btn" data-tab="inv">背包</button>
+            <button class="tab-btn" data-tab="cards">卡片</button>
+            <button class="tab-btn" data-tab="pets">寵物</button>
+            <button class="tab-btn" data-tab="cos">外觀</button>
+            <button class="tab-btn" data-tab="stats">狀態</button>
+            <button class="tab-btn" data-tab="talents">職業</button>
+          </div>
+          <div id="cp-gs" class="gs-total"></div>
+          </div>
+          <div id="cp-tab-equip" class="tab">
+            <div class="equip-layout">
+              <div class="equip-col" id="cp-slots-left"></div>
+              <div class="equip-center">
+                <canvas id="cp-avatar" width="176" height="220"></canvas>
+              </div>
+              <div class="equip-col" id="cp-slots-right"></div>
+            </div>
+            <div class="eq-work">
+              <div id="cp-eq-current" class="inv-box"></div>
+              <div id="cp-eq-cmp" class="inv-box"></div>
+              <div class="inv-box"><div class="box-title" id="cp-eq-list-title"></div><div id="cp-eq-list" class="cand-list"></div></div>
+            </div>
+          </div>
+          <div id="cp-tab-inv" class="tab hidden">
+            <div class="browse-layout">
+              <div class="inv-box"><div class="box-title">背包 <span id="cp-kafra" class="kafra"></span></div><div id="cp-inv-filters" class="inv-filters"></div><div id="cp-inventory" class="item-grid"></div></div>
+              <div id="cp-inv-detail" class="inv-box browse-detail"></div>
+            </div>
+          </div>
+          <div id="cp-tab-cards" class="tab hidden">
+            <div class="browse-layout">
+              <div class="inv-box"><div class="box-title">卡片</div><div id="cp-card-filters" class="inv-filters"></div><div id="cp-cards" class="item-grid"></div></div>
+              <div id="cp-card-detail" class="inv-box browse-detail"></div>
+            </div>
+          </div>
+          <div id="cp-tab-pets" class="tab hidden">
+            <div class="browse-layout">
+              <div class="inv-box"><div class="box-title">寵物 <small id="cp-pet-count"></small></div><div id="cp-pets" class="item-grid"></div></div>
+              <div id="cp-pet-detail" class="inv-box browse-detail"></div>
+            </div>
+          </div>
+          <div id="cp-tab-cos" class="tab hidden">
+            <div class="browse-layout">
+              <div class="inv-box"><div class="box-title">外觀 <small id="cp-cos-count"></small></div><div id="cp-cos-filters" class="inv-filters"></div><div id="cp-cos" class="item-grid"></div></div>
+              <div class="inv-box browse-detail cos-detail"><div class="box-title">外觀預覽</div><canvas id="cp-cos-avatar" width="176" height="220"></canvas><div id="cp-cos-detail"></div></div>
+            </div>
+          </div>
+          <div id="cp-tab-stats" class="tab hidden">
+            <div class="status-layout">
+              <div class="status-box"><div class="box-title">素質</div><div id="cp-radar" class="radar"></div><div id="cp-prim"></div><div class="status-left">剩餘點數： <b id="cp-prim-left">0</b></div></div>
+              <div class="status-box"><div class="box-title">本局中</div><div id="cp-derived" class="stat-grid"></div></div>
+            </div>
+            <div id="cp-stats" class="stat-strip"></div>
+            <div class="btn-row cp-reset-row"><span class="muted desktop-only">+：提升 · 在 + 上按右鍵：提升 10 · −：降低</span><span class="muted touch-only">+：提升 · −：降低</span><span class="spacer"></span><button class="ro-btn small" id="cp-stat-reset">重置素質</button></div>
+          </div>
+          <div id="cp-tab-talents" class="tab hidden">
+            <div id="cp-trees" class="talent-trees"></div>
+            <div class="btn-row cp-reset-row"><span class="muted desktop-only">點擊：加點 · 右鍵：移除</span><span class="muted touch-only">點擊天賦以查看並提升或降低</span><span class="spacer"></span><button class="ro-btn small" id="cp-reset">重置天賦</button></div>
+          </div>
+        </div>
+        
+        <div class="btn-row pad cp-foot">
+          <button class="ro-btn" id="cp-back">切換角色</button>
+        </div>
+      </div>
+      <div id="cp-sock" class="sock-overlay hidden">
+        <div class="ro-window sock-window">
+          <div class="ro-title">插入卡片</div>
+          <div class="ro-body" id="cp-sock-body"></div>
+          <div class="btn-row pad"><span class="spacer"></span><button class="ro-btn primary" id="cp-sock-done">完成</button></div>
+        </div>
+      </div>
+      <div id="tooltip" class="tooltip hidden"></div>
+    </div>
+
+    
+    <div id="picker" class="hidden">
+      <canvas id="pk-aura"></canvas>
+      <div class="pk-inner">
+        <div class="pk-head">
+          <div id="pk-title"></div>
+          <div id="pk-gain" class="hidden"></div>
+          <div id="pk-sub"></div>
+        </div>
+        <div id="lu-sockets" class="hidden"></div>
+        <div id="pk-cards"></div>
+        <div id="pk-hint"></div>
+      </div>
+    </div>
+
+    <div id="stages" class="overlay hidden">
+      <div class="ro-window stages-window">
+        <div class="ro-title">遠征</div>
+        <div class="ro-body stages-body">
+          <div class="stg-side"><div id="stg-gs" class="stg-gs"></div><div id="stg-list" class="stg-list"></div></div>
+          <div id="stg-detail" class="stg-detail"></div>
+        </div>
+        <div class="btn-row pad">
+          <button class="ro-btn" id="stg-close">關閉</button>
+          <span class="spacer"></span>
+          <button class="ro-btn stg-go hidden" id="stg-skip">跳過劇情</button>
+          <button class="ro-btn stg-go hidden" id="stg-story">劇情</button>
+          <button class="ro-btn primary stg-go" id="stg-go">出發</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="shop" class="overlay hidden">
+      <div class="ro-window shop-window">
+        <div class="ro-title">礦石商人</div>
+        <div class="ro-body">
+          <div class="shop-top">
+            <div class="tabs"><button class="tab-btn active" data-shop="sell">販賣</button><button class="tab-btn" data-shop="buy">購買</button></div>
+            <span id="shop-kafra" class="kafra"></span>
+          </div>
+          <div id="shop-sell">
+            <div id="shop-filters" class="inv-filters"></div>
+            <div id="shop-quality" class="shop-quality"></div>
+            <div id="shop-items" class="item-grid shop-grid"></div>
+            <div id="shop-info" class="info-panel"></div>
+          </div>
+          <div id="shop-buy" class="hidden"></div>
+        </div>
+        <div class="btn-row pad">
+          <span id="shop-total" class="shop-total"></span>
+          <span class="spacer"></span>
+          <button class="ro-btn" id="shop-close">關閉</button>
+          <button class="ro-btn primary" id="shop-sell-btn">販賣</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="chronicle" class="overlay hidden">
+      <div class="ro-window chronicle-window">
+        <div class="ro-title">事蹟記錄者</div>
+        <div class="ro-body">
+          <div class="shop-top">
+            <div class="tabs"><button class="tab-btn active" data-chr="perks">強化</button><button class="tab-btn" data-chr="log">成就</button></div>
+            <span id="chr-points" class="kafra"></span>
+          </div>
+          <div id="chr-perks"></div>
+          <div id="chr-log-tab" class="hidden">
+            <div id="chr-filters" class="inv-filters"></div>
+            <div id="chr-log" class="chr-list chr-scroll"></div>
+          </div>
+        </div>
+        <div class="btn-row pad">
+          <span class="spacer"></span>
+          <button class="ro-btn" id="chr-close">關閉</button>
+        </div>
+      </div>
+    </div>
+
+    
+    <div id="towerkeeper" class="overlay hidden">
+      <div class="ro-window stages-window">
+        <div class="ro-title">塔之守護者</div>
+        <div class="ro-body stages-body">
+          <div class="stg-side"><div id="tk-nav" class="stg-list"></div></div>
+          <div id="tk-detail" class="stg-detail"></div>
+        </div>
+        <div class="btn-row pad">
+          <span class="spacer"></span>
+          <button class="ro-btn" id="tk-close">關閉</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="petkeeper" class="overlay hidden">
+      <div class="ro-window chronicle-window">
+        <div class="ro-title">寵物照護員</div>
+        <div class="ro-body">
+          <div class="shop-top">
+            <div class="tabs"><button class="tab-btn active" data-pk="acc">飾品</button><button class="tab-btn" data-pk="evo">進化</button></div>
+            <span id="pk-kafra" class="kafra"></span>
+          </div>
+          <div id="pk-list" class="chr-list chr-scroll pk-list"></div>
+          <div id="pk-note" class="info-panel"></div>
+        </div>
+        <div class="btn-row pad">
+          <span class="spacer"></span>
+          <button class="ro-btn" id="pk-close">關閉</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="festival" class="overlay hidden">
+      <div class="ro-window festival-window">
+        <div class="fe-splash">
+          <button class="fe-x" id="festival-close" aria-label="關閉">✕</button>
+          <div id="fe-bar" class="fe-bar"></div>
+          <div id="fe-reveal" class="fe-reveal"></div>
+          <div class="fe-card">
+            <div class="fe-head"><b>燈籠節</b><small>季節活動 · 至聖誕節</small></div>
+            <div class="tabs"><button class="tab-btn active" data-fe="gacha">扭蛋</button><button class="tab-btn" data-fe="col">收藏</button></div>
+            <div id="fe-gacha" class="fe-tab"></div>
+            <div id="fe-col" class="fe-tab hidden"></div>
+          </div>
+          <button class="ro-btn primary fe-play" id="festival-play">開始遊戲</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mailbox" class="overlay hidden">
+      <div class="ro-window chronicle-window">
+        <div class="ro-title">郵差</div>
+        <div class="ro-body mb-body-wrap">
+          <div id="mb-list" class="chr-list chr-scroll mb-list"></div>
+          <div id="mb-read" class="info-panel mb-read"></div>
+          <div id="mb-note" class="mb-note"></div>
+        </div>
+        <div class="btn-row pad">
+          <button class="ro-btn" id="mb-delete" hidden>丟掉信件</button>
+          <span class="spacer"></span>
+          <button class="ro-btn primary" id="mb-claim" hidden>領取</button>
+          <button class="ro-btn" id="mb-close">關閉</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="stylist" class="overlay hidden">
+      <div class="ro-window stylist-window">
+        <div class="ro-title">造型師</div>
+        <div class="ro-body create-body">
+          <div class="preview-col">
+            <canvas id="st-preview" width="200" height="230"></canvas>
+            <div class="btn-row center">
+              <button class="ro-btn small" id="st-rot-l" title="旋轉">⟲</button>
+              <button class="ro-btn small" id="st-rot-r" title="旋轉">⟳</button>
+            </div>
+          </div>
+          <div class="form-col">
+            <div class="field">髮型
+              <div class="stepper"><button class="ro-btn small" id="st-hair-prev">◀</button><span id="st-hair">1</span><button class="ro-btn small" id="st-hair-next">▶</button></div>
+            </div>
+            <div class="field">髮色 <div id="st-haircolors" class="swatches"></div></div>
+            <div class="field">服裝顏色 <div id="st-clothcolors" class="swatches"></div></div>
+            <div id="st-note" class="info-panel"></div>
+          </div>
+        </div>
+        <div class="btn-row pad">
+          <button class="ro-btn" id="st-reset">復原</button>
+          <span class="spacer"></span>
+          <button class="ro-btn" id="st-close">關閉</button>
+          <button class="ro-btn primary" id="st-ok">套用</button>
+        </div>
+      </div>
+    </div>
+
+    
+    <div id="wiki" class="overlay hidden">
+      <div class="ro-window stages-window wiki-window">
+        <div class="ro-title">普隆德拉圖書館員</div>
+        <div class="ro-body stages-body wiki-body">
+          <div class="stg-side">
+            <input id="wk-search" class="wk-search" type="search" autocomplete="off" spellcheck="false" placeholder="搜尋遊戲百科…" />
+            <div id="wk-nav" class="stg-list wk-nav"></div>
+          </div>
+          <div id="wk-detail" class="stg-detail wk-detail"></div>
+        </div>
+        <div class="btn-row pad">
+          <span class="spacer"></span>
+          <button class="ro-btn" id="wk-close">關閉</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="smith" class="overlay hidden">
+      <div class="ro-window smith-window">
+        <div class="ro-title">鐵匠忽克連</div>
+        <div class="ro-body smith-body">
+          <div class="smith-side">
+            <div id="smith-filters" class="inv-filters"></div>
+            <div id="smith-list" class="cand-list"></div>
+          </div>
+          <div id="smith-detail" class="smith-detail"></div>
+        </div>
+        <div class="btn-row pad">
+          <button class="ro-btn" id="smith-close">關閉</button>
+          <span class="spacer"></span>
+          <button class="ro-btn primary" id="smith-go">精煉</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="pause" class="overlay hidden">
+      <div class="ro-window small-window">
+        <div class="ro-title">暫停</div>
+        <div class="ro-body center">
+          <button class="ro-btn" id="btn-resume">繼續</button>
+          <button class="ro-btn" id="btn-pause-options">選項</button>
+          <button class="ro-btn" id="btn-quit">離開到選單</button>
+          <button class="ro-btn hidden" id="btn-endrun">結束本局</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameover" class="overlay hidden">
+      <div class="ro-window summary-window">
+        <div class="ro-title" id="go-title">你死了</div>
+        <div class="ro-body center">
+          <div id="go-stats"></div>
+        </div>
+        <div class="btn-row pad"><button class="ro-btn primary" id="btn-restart">返回角色</button></div>
+      </div>
+    </div>
+
+    <div id="options" class="overlay hidden">
+      <div class="ro-window options-window">
+        <div class="ro-title">選項</div>
+        <div class="ro-body">
+          <div class="tabs" id="opt-tabs"></div>
+          <div id="opt-body"></div>
+        </div>
+        <div class="btn-row pad">
+          <button class="ro-btn" id="opt-defaults">恢復預設值</button>
+          <button class="ro-btn hidden" id="opt-install">安裝</button>
+          <span class="spacer"></span>
+          <button class="ro-btn primary" id="opt-close">關閉</button>
+          <small class="opt-version" id="opt-version"></small>
+        </div>
+      </div>
+    </div>
+
+    <div id="skill-tip" class="tooltip skill-tip hidden"></div>
+
+    <div id="drop-reveal" class="hidden"></div>
+
+    
+    <div id="splash">
+      <div class="sp-bg"></div>
+      <div class="sp-veil"></div>
+      <canvas id="sp-parade"></canvas>
+      <canvas id="sp-parade-fly"></canvas>
+      <div class="sp-motes"></div>
+      <div class="sp-logo">
+        <div class="sp-logo-name classic-logo"><img src="offline/branding/classic-logo.png" alt="RO 仙境傳說" /></div><small>仙境傳說倖存者</small>
+        
+      </div>
+      <div class="ro-window sp-card">
+        <div class="ro-title">普隆德拉在等著你</div>
+        <div class="ro-body">
+          <div class="sp-tabs" role="tablist">
+            <button role="tab" data-sp-tab="guest" class="active">訪客</button>
+            <button role="tab" data-sp-tab="login">進入</button>
+            <button role="tab" data-sp-tab="register">建立帳號</button>
+          </div>
+          
+          <div class="sp-pane" data-sp-pane="guest">
+            <div class="sp-feat"><img src="assets/items/1101.png" alt="" />選擇職業、拿起武器，迎戰魔物大軍。</div>
+            <div class="sp-feat"><img src="assets/items/501.png" alt="" />角色、裝備與進度保存在這部裝置。</div>
+            <div class="sp-feat"><img src="assets/items/2220.png" alt="" />所有外觀皆可免費更換，無須登入或連線。</div>
+            <button class="ro-btn primary sp-submit" id="sp-play" disabled><i class="sp-fill"></i><span>載入中…</span></button>
+            
+            <button class="ro-btn small sp-leave hidden" id="sp-leave" type="button">離開</button>
+          </div>
+          
+          <form class="sp-pane hidden" data-sp-pane="login" id="sp-login" autocomplete="on">
+            <fieldset class="sp-form">
+              <label class="sp-field">帳號 <input name="username" autocomplete="username" maxlength="16" spellcheck="false" /></label>
+              <label class="sp-field">密碼 <input name="password" type="password" autocomplete="current-password" /></label>
+              <div class="sp-error" aria-live="polite"></div>
+              <button class="ro-btn primary sp-submit" type="submit">進入</button>
+            </fieldset>
+            <button class="sp-link" type="button" id="sp-forgot">忘記密碼？</button>
+          </form>
+          
+          <div class="sp-pane hidden" data-sp-pane="recover">
+            
+            <form id="sp-recover" autocomplete="off">
+              <fieldset class="sp-form">
+                <small class="sp-note rq-help">回答帳號的 5 個安全問題。答對即可設定新密碼。每週有 3 次機會。</small>
+                <label class="sp-field">帳號 <input name="username" autocomplete="username" maxlength="16" spellcheck="false" /></label>
+                <div class="rq-list" data-questions></div>
+                <div class="sp-error" aria-live="polite"></div>
+                <button class="ro-btn primary sp-submit" type="submit">檢查答案</button>
+              </fieldset>
+            </form>
+            
+            <form id="sp-reset" class="hidden" autocomplete="on">
+              <fieldset class="sp-form">
+                <div class="sp-ok">答案正確。請選擇新密碼。</div>
+                <input name="username" autocomplete="username" hidden />
+                <label class="sp-field">新密碼 <input name="password" type="password" autocomplete="new-password" minlength="8" /></label>
+                <label class="sp-field">再次輸入密碼 <input name="password2" type="password" autocomplete="new-password" minlength="8" /></label>
+                <div class="sp-error" aria-live="polite"></div>
+                <button class="ro-btn primary sp-submit" type="submit">儲存並登入</button>
+              </fieldset>
+            </form>
+            <button class="sp-link" type="button" id="sp-recover-back">返回</button>
+          </div>
+          <form class="sp-pane hidden" data-sp-pane="register" id="sp-register" autocomplete="on">
+            <fieldset class="sp-form">
+              
+              <div class="sp-ok hidden" id="sp-guest-note">已無法再以訪客身分遊玩。建立帳號後，你的所有進度都會保留。</div>
+              <label class="sp-field">帳號 <input name="username" autocomplete="username" maxlength="16" spellcheck="false" /></label>
+              <label class="sp-field">密碼 <input name="password" type="password" autocomplete="new-password" minlength="8" /></label>
+              <label class="sp-field">再次輸入密碼 <input name="password2" type="password" autocomplete="new-password" minlength="8" /></label>
+              
+              <div class="rq-head">安全問題 <small>（選填）</small></div>
+              <label class="sp-check"><input name="questions" type="checkbox" checked />設定問題，以便忘記密碼時找回</label>
+              <small class="sp-note rq-help" id="sp-rq-help">沒有電子郵件的情況下，如果忘記密碼，這 5 個答案是找回帳號的唯一方法。請記住它們或寫在安全的地方。</small>
+              <div class="rq-list" data-questions></div>
+              <div class="rq-declined hidden" id="sp-rq-declined">沒有安全問題的話，遺失密碼就無法找回帳號。此決定是永久的：之後無法再新增。</div>
+              <label class="sp-check" id="sp-upload"><input name="upload" type="checkbox" checked />將此裝置的角色上傳到帳號</label>
+              <div class="sp-error" aria-live="polite"></div>
+              <button class="ro-btn primary sp-submit" type="submit">建立帳號</button>
+            </fieldset>
+            <small class="sp-note" id="sp-upload-note">從訪客模式會上傳你的角色、裝備與卡片，但不包括卡普拉點數與礦石；上傳的物品可以使用，但不能交易。</small>
+          </form>
+          
+          <small class="sp-maint hidden" id="sp-maint"></small>
+          <small class="sp-soon hidden">帳號功能即將推出。目前請以訪客身分遊玩。</small>
+          <small class="sp-status" id="sp-version"></small>
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="sp-top" id="sp-top">
+      
+      
+      
+      <div class="sp-lang" id="sp-lang">
+        <button class="sp-lang-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="語言"><b></b><i class="sp-caret"></i></button>
+        <ul class="sp-lang-list hidden" role="listbox"></ul>
+      </div>
+    </div>
+
+    <div id="loading" class="overlay hidden"><div class="loading-ring"></div><div class="loading-text">正在載入仙境傳說素材…</div></div>
+
+    
+  </body>
+</html>

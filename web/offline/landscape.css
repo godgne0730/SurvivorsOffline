@@ -1,0 +1,136 @@
+/* Keep the world full bleed; only windows and controls avoid the display cutout. */
+@media (orientation: landscape) {
+  :root {
+    --offline-safe-left: max(12px, env(safe-area-inset-left, 0px));
+    --offline-safe-right: max(12px, env(safe-area-inset-right, 0px));
+    --offline-safe-width: calc(100vw - var(--offline-safe-left) - var(--offline-safe-right));
+    /* Source UI children use CSS zoom, unlike their full-screen backdrops. */
+    --offline-window-width: calc(var(--offline-safe-width) / var(--ui));
+    --offline-centered-width: calc((100vw - 2 * max(var(--offline-safe-left), var(--offline-safe-right))) / var(--ui));
+  }
+
+  .overlay,
+  #picker,
+  #drop-reveal {
+    padding-left: var(--offline-safe-left);
+    padding-right: var(--offline-safe-right);
+  }
+
+  .overlay > .ro-window,
+  .overlay > .brand,
+  #profile-bar,
+  .pk-inner,
+  .dr-inner {
+    min-width: 0;
+    max-width: var(--offline-window-width);
+  }
+
+  /* Socket selection is already inside a safe, zoomed character window. */
+  .sock-window { max-width: calc(100% - 16px); }
+
+  #pk-cards { max-width: 100%; }
+  #pk-cards .pk-slot,
+  #pk-cards.many .pk-slot {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  #pk-bar { right: calc(var(--offline-safe-right) / var(--ui)); }
+
+  .story-box,
+  #boss-bar,
+  #toasts,
+  #party-wait,
+  #lobby-actions,
+  #lobby-prompt,
+  #lobby-place {
+    max-width: var(--offline-centered-width);
+  }
+
+  /* Inline tooltip coordinates use the full viewport; touch tips stay centered. */
+  html.touch .tooltip {
+    left: 50% !important;
+    right: auto;
+    transform: translateX(-50%);
+    max-width: min(280px, var(--offline-centered-width));
+  }
+
+  html.touch #basic-info,
+  html.touch #buffs,
+  #quest,
+  #run-party,
+  html.touch #party-frame,
+  #chat-toggle,
+  #lobby-chat {
+    left: calc(var(--offline-safe-left) / var(--ui));
+  }
+  #lobby-chat { max-width: var(--offline-window-width); }
+  #lobby-chat.open { right: calc(var(--offline-safe-right) / var(--ui)); }
+  #minimap,
+  #loot-rolls,
+  #pad-hints {
+    right: calc(var(--offline-safe-right) / var(--ui));
+  }
+  #loot-rolls,
+  #pad-hints { max-width: var(--offline-window-width); }
+
+  /* These controls do not use the source UI zoom. */
+  .sp-foot { padding-left: var(--offline-safe-left); padding-right: var(--offline-safe-right); }
+  .sp-card { min-width: 0; }
+}
+
+@media (orientation: landscape) and (max-height: 500px),
+       (orientation: landscape) and (max-width: 720px) {
+  /* The pause button sits immediately left of the scaled minimap column. */
+  .tc-pause { right: calc(var(--offline-safe-right) + (var(--col-w) + 8px) * var(--ui)); }
+  #timer-box,
+  html.touch #timer-box { right: calc(var(--offline-safe-right) / var(--ui)); }
+  #endless-hud { left: var(--offline-safe-left); }
+  #endless-combo { right: var(--offline-safe-right); }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .pk-inner {
+    max-height: calc((100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) / var(--ui));
+  }
+  #picker:has(#pk-bar:not(.hidden)) .pk-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-auto-rows: max-content;
+    justify-items: center;
+  }
+  #picker:has(#pk-bar:not(.hidden)) .pk-inner > :not(.pk-head, #pk-bar) { grid-column: 1 / -1; }
+  #picker:has(#pk-bar:not(.hidden)) .pk-head { grid-column: 1; grid-row: 1; align-self: center; }
+
+  /* Keep the action bar in the zoomed scroller's layout and paint order. */
+  #pk-bar {
+    position: sticky;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    justify-self: end;
+    top: 0;
+    right: auto;
+    z-index: 2;
+    animation: none;
+    /* The count badge extends 8px, plus its 2px white outline. */
+    padding: 10px 10px 2px;
+  }
+}
+
+@media (max-width: 720px), (max-height: 500px) {
+  :root {
+    --offline-hud-gap: 4px;
+    --offline-minimap-title-height: calc(var(--fs-sm) * 1.4 + 9px);
+  }
+
+  /* The title adds its line, 8px padding and 1px border above the square canvas. */
+  #minimap .ro-title {
+    line-height: 1.4;
+    height: var(--offline-minimap-title-height);
+  }
+  #timer-box,
+  html.touch #timer-box {
+    top: calc(var(--col-t) + var(--col-w) + var(--offline-minimap-title-height) + var(--offline-hud-gap));
+    gap: var(--offline-hud-gap);
+  }
+}

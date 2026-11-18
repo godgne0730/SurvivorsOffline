@@ -1,0 +1,47 @@
+{
+  "name": "gef_fild10",
+  "models": "models.json",
+  "ambient": "ambient.json",
+  "collision": {
+    "file": "walk.bin",
+    "w": 400,
+    "h": 400
+  },
+  "altitude": {
+    "file": "altitude.bin",
+    "w": 400,
+    "h": 400
+  },
+  "width": 200,
+  "height": 200,
+  "lightmapCell": 6,
+  "atlas": "atlas.png",
+  "cells": "cells.bin",
+  "heights": "heights.bin",
+  "walls": "walls.bin",
+  "zoom": 10,
+  "shadow": "shadow.png",
+  "light": "light.png",
+  "minimap": "minimap.png",
+  "textures": [
+    "BACKSIDE.BMP",
+    "필드바닥\\게펜필드-04.bmp",
+    "필드바닥\\게펜언덕-08.bmp",
+    "필드바닥\\게펜언덕-10.bmp",
+    "필드바닥\\게펜언덕-09.bmp",
+    "필드바닥\\게펜필드-02.bmp",
+    "필드바닥\\게펜필드-06.bmp",
+    "필드바닥\\게펜필드-07.bmp",
+    "필드바닥\\게펜필드-05.bmp",
+    "필드바닥\\게펜언덕-12.bmp",
+    "필드바닥\\게펜언덕-13.bmp",
+    "필드바닥\\게펜필드-01.bmp",
+    "필드바닥\\게펜필드-00.bmp",
+    "필드바닥\\게펜필드-03.bmp"
+  ],
+  "warps": [],
+  "start": [
+    200,
+    216
+  ]
+}

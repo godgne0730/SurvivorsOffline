@@ -1,7 +1,7 @@
 {
-  "version": "a1478c4260d1facc835a",
+  "version": "7b8da43248910357c918",
   "fileCount": 9609,
-  "totalBytes": 288516969,
+  "totalBytes": 288516900,
   "files": [
     {
       "path": ".nojekyll",
@@ -47945,8 +47945,8 @@
     },
     {
       "path": "web/build/soul_linker-BNTKE1pN.js",
-      "bytes": 2756437,
-      "sha256": "ab1e6ebf23a56701c64f18f152cf155cf300dbc24daf55ea92fb7c5618a9f06a"
+      "bytes": 2756368,
+      "sha256": "71a4fcd61340098beed7435aab0a3000f2f63ff951be2c7b0c4b3ffaea2fcd1c"
     },
     {
       "path": "web/build/webworkerAll-CxShr0sz.js",

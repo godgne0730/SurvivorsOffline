@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-let registration, timer;
+let registration, timer, installError = '', starting = false;
 function message(worker) {
   return new Promise((resolve, reject) => {
     const channel = new MessageChannel();
@@ -13,33 +13,54 @@ async function refresh() {
   try {
     const active = registration.active && await message(registration.active);
     const downloading = registration.installing && await message(registration.installing);
-    const ready = active?.ready && !!navigator.serviceWorker.controller;
-    $('play').disabled = !ready;
+    const ready = !!active?.ready;
     const data = downloading || active;
+    $('install').disabled = starting || !!registration.installing;
+    $('progress').hidden = !data;
     if (data) {
       $('progress').value = data.ready ? 1 : data.done / data.total;
       $('detail').textContent = data.ready ? `版本 ${data.version} · 可離線遊玩` : `${data.done} / ${data.total} 個檔案 · ${(data.bytes / 1048576).toFixed(1)} / ${(data.totalBytes / 1048576).toFixed(1)} MB`;
     }
-    $('status').textContent = ready ? '離線素材已備妥' : downloading ? '正在下載完整遊戲，請保持畫面開啟…' : '下載尚未完成。請確認網路與剩餘空間後重試。';
-    $('update').textContent = registration.waiting ? '新版已下載完成。請關閉所有遊戲視窗，再重新開啟以更新；存檔會保留。' : downloading && ready ? '新版正在下載，仍可遊玩目前版本。' : '';
-  } catch (error) { $('detail').textContent = String(error.message); }
+    $('status').textContent = ready ? '離線素材已備妥' : downloading ? '正在安裝離線版，請保持畫面開啟…' : '可直接開始遊戲；離線遊玩請先按「安裝離線版」。';
+    $('update').textContent = installError || (registration.waiting ? '新版已下載完成。請關閉所有遊戲視窗，再重新開啟以更新；存檔會保留。' : downloading && ready ? '新版正在下載，仍可遊玩目前版本。' : '');
+  } catch (error) { $('detail').textContent = error.message; }
 }
-async function setup() {
+function watch() {
   clearInterval(timer);
-  try {
-    if (!isSecureContext || !('serviceWorker' in navigator)) throw new Error('請使用 HTTPS 網址（本機測試可用 localhost）及支援離線功能的瀏覽器。');
-    registration = await navigator.serviceWorker.register('./sw.js', {scope: './', updateViaCache: 'none'});
-    timer = setInterval(refresh, 1000);
-    await refresh();
-    registration.update().catch(() => {});
-  } catch (error) { $('status').textContent = error.message; }
+  timer = setInterval(refresh, 1000);
+  void refresh();
 }
-$('retry').onclick = setup;
-$('play').onclick = async () => {
-  // Request durability from a user gesture; denial must not prevent play.
-  try { await navigator.storage?.persist?.(); } catch (_) {}
-  location.href = './web/index.html';
-};
+async function inspectExisting() {
+  if (!isSecureContext || !('serviceWorker' in navigator)) return;
+  try {
+    const existing = await navigator.serviceWorker.getRegistration('./');
+    if (existing?.scope === new URL('./', location.href).href) { registration = existing; watch(); }
+  } catch (_) { /* Browsing and online play do not require offline storage. */ }
+}
+async function install() {
+  if (starting) return;
+  starting = true; installError = ''; $('install').disabled = true;
+  $('status').textContent = '正在準備離線安裝…'; $('update').textContent = '';
+  try {
+    if (!isSecureContext || !('serviceWorker' in navigator)) throw new Error('離線安裝需要 HTTPS 網址及支援離線功能的瀏覽器；仍可直接開始遊戲。');
+    // The explicit click requests a fresh worker even if a previous install used an old CDN copy.
+    registration = await navigator.serviceWorker.register(`./sw.js?install=${Date.now()}`, {scope: './', updateViaCache: 'none'});
+    watch();
+    try { void navigator.storage?.persist?.().catch(() => {}); } catch (_) {}
+  } catch (error) {
+    installError = error.message; $('update').textContent = installError;
+    $('status').textContent = '離線安裝尚未完成，仍可直接開始遊戲。';
+  } finally { starting = false; $('install').disabled = !!registration?.installing; }
+}
+navigator.serviceWorker?.addEventListener('message', event => {
+  if (event.data?.type !== 'ro-install-error' || !event.source?.scriptURL) return;
+  const source = new URL(event.source.scriptURL);
+  if (source.origin !== location.origin || source.pathname !== new URL('./sw.js', location.href).pathname) return;
+  installError = event.data.message;
+  $('update').textContent = installError; $('install').disabled = false;
+});
+$('install').onclick = install;
+$('play').onclick = () => { location.href = './web/index.html'; };
 const saveKey = key => /^ro-survivors[.:]/.test(key) && !/\.(?:session|lobby|party|incidents|blackbox|dev)(?:[.-]|$)/.test(key);
 function snapshot() { return Object.fromEntries(Object.keys(localStorage).filter(saveKey).map(k => [k, localStorage.getItem(k)])); }
 $('export').onclick = () => {
@@ -72,4 +93,4 @@ $('import').onchange = async e => {
   } catch (error) { $('save-status').textContent = `匯入失敗：${error.message}`; }
   finally { e.target.value = ''; }
 };
-await setup();
+await inspectExisting();

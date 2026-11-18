@@ -1,7 +1,7 @@
 {
-  "version": "7b8da43248910357c918",
+  "version": "329ecc1e51f27991c651",
   "fileCount": 9609,
-  "totalBytes": 288516900,
+  "totalBytes": 288518069,
   "files": [
     {
       "path": ".nojekyll",
@@ -15,8 +15,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 2116,
-      "sha256": "52a6a584832661c7a2890dc58c656de503d7020b11b17623ef6810af31adc6b8"
+      "bytes": 2201,
+      "sha256": "579d82d166a5c7bc8c61dc8f15894a8207f8ab1d33422405963028f86eac9ed9"
     },
     {
       "path": "pwa.css",
@@ -25,8 +25,8 @@
     },
     {
       "path": "pwa.js",
-      "bytes": 4628,
-      "sha256": "8287f18453776a90c8a09417ba3274cb8ffe548bfa9c4cb03a9efe6e6ca90a03"
+      "bytes": 5947,
+      "sha256": "63566a5aadae141127cb277f536c7ea65eb04113c95369e236f72f7acf20fb63"
     },
     {
       "path": "web/app-icons/app-ro-192.png",
@@ -48035,8 +48035,8 @@
     },
     {
       "path": "web/offline/start.js",
-      "bytes": 807,
-      "sha256": "3e0cc332bcb83c3b439b4ca249fe23b3b7ebf91d6825073d9ed2658ad82c7901"
+      "bytes": 572,
+      "sha256": "e41608e49de7bcd7a8ed7866db0115bc9806f49edf349b75fa6ae392254636b4"
     },
     {
       "path": "web/splash/endless-tower-mask.svg",

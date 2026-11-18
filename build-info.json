@@ -1,7 +1,7 @@
 {
-  "version": "dd7b2751ab673cb85b83",
+  "version": "a1478c4260d1facc835a",
   "fileCount": 9609,
-  "totalBytes": 288517263,
+  "totalBytes": 288516969,
   "files": [
     {
       "path": ".nojekyll",
@@ -10,13 +10,13 @@
     },
     {
       "path": "app-manifest.json",
-      "bytes": 676,
-      "sha256": "bf39bfdd41c267c17869360f728cdc1075d4dcb5586d8a829f198b894362df55"
+      "bytes": 652,
+      "sha256": "8b129cb02b8aa8fb65ed11b1ad0dbdce6924636fce123de152cbb45f644a3b31"
     },
     {
       "path": "index.html",
-      "bytes": 2164,
-      "sha256": "a7f84760daca1788aea30fd78a24e78813ef17d75ae1bd00676b86e2f688bbf7"
+      "bytes": 2116,
+      "sha256": "52a6a584832661c7a2890dc58c656de503d7020b11b17623ef6810af31adc6b8"
     },
     {
       "path": "pwa.css",
@@ -55,8 +55,8 @@
     },
     {
       "path": "web/app-manifest.json",
-      "bytes": 669,
-      "sha256": "96990defeffb0f9e4000bb384d183f76c04708745765db042f85aacdef2ae8f3"
+      "bytes": 645,
+      "sha256": "9b5ade152a4facee48c66f6a12c6af0c7543c96de84ad10ea57ac21911a305a3"
     },
     {
       "path": "web/assets/bgm/boss.mp3",
@@ -47935,8 +47935,8 @@
     },
     {
       "path": "web/build/main-2n_YvaNQ.js",
-      "bytes": 1351918,
-      "sha256": "26757a18606276a6f611778c7444ce23a6c0a5ba826a9a2c6796ee2308ad8088"
+      "bytes": 1351870,
+      "sha256": "922f907d96c9e4709fa37021be402e9675065a8c6e3c8eba65e9f1700469bdb6"
     },
     {
       "path": "web/build/main-BT36rxL4.css",
@@ -47960,8 +47960,8 @@
     },
     {
       "path": "web/index.html",
-      "bytes": 39338,
-      "sha256": "569fcb48f34cbacf3d0a3a4dcee0dd5f56982f53c6b2ae513977f818a986ed54"
+      "bytes": 39188,
+      "sha256": "ead78e8a1b0aee01914e60d16cebf6037cd44abff415feec3fe9e2aae1e77477"
     },
     {
       "path": "web/offline/branding.css",

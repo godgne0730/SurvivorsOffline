@@ -23,11 +23,21 @@
   function direction(source,target){
     return Math.atan2(target.y-source.y,target.x-source.x);
   }
+  function shotAngle(game,from,to,lift) {
+    if(!game.screenPos)return direction(from,to);
+    const a=game.screenPos(from.x,from.y,lift),b=game.screenPos(to.x,to.y,lift);
+    return Math.atan2(b.y-a.y,b.x-a.x);
+  }
+  // CArrowEffect advances one map cell per 24 ms, for up to eight frames.
+  function arrowFlight(from,to) {
+    return Math.max(1,Math.min(192,24*Math.hypot(to.x-from.x,to.y-from.y)/renderer().unit));
+  }
   function point(target,attached){return attached?target:{x:target.x,y:target.y}}
   function asColor(r,g,b){return (Math.round(clamp(r)*255)<<16)|(Math.round(clamp(g)*255)<<8)|Math.round(clamp(b)*255)}
   function sprite(game,row,target,source,duration){
     const R=renderer(),sheet=row.sheet,frames=row.images??[];
-    const image=sheet?R.sheet(sheet,row.direction?(source.sprite?.dir??0):0):R.sprite(lookup(frames[0]));
+    const shaft=sheet==='fx_arrow'||sheet==='fx_spear';
+    const image=sheet?R.sheet(sheet,shaft?2:row.direction?(source.sprite?.dir??0):0):R.sprite(lookup(frames[0]));
     const view=R.container();view.addChild(image);
     const fixed=point(target,row.attachedEntity),from=point(source,false);
     const anchor={x:fixed.x,y:fixed.y},unit=R.unit;
@@ -50,25 +60,32 @@
     const angle=radians(value(row.angleRand,value(row.angle)));
     const circleAngle=angle-Math.PI/2,inner=value(row.circleInnerSize)*unit,outer=value(row.circleOuterSizeRand)*unit;
     if(!sheet)image.anchor.set(.5,row.anchorY??.5);
-    image.blendMode=row.blendMode===1?'normal':'add';
+    image.blendMode=shaft||row.blendMode===1?'normal':'add';
     image.tint=asColor(row.red??1,row.green??1,row.blue??1);
-    let elapsed=0;
+    let elapsed=0, sampled=false;
     const fx={view,anchor,upright:true,lift:0,update(ms){
       elapsed+=ms;
       const t=clamp(elapsed/duration),q=row.sizeSmooth?t*t*(3-2*t):t;
       const ox=between(begin[0],end[0],t),oy=between(begin[1],end[1],t);
       anchor.x=(row.toSrc?between(from.x,fixed.x,t):fixed.x)+ox;
       anchor.y=(row.toSrc?between(from.y,fixed.y,t):fixed.y)+oy;
-      fx.lift=between(begin[2],end[2],t)+(row.zOffset??0)*unit+(row.head?70:0);
+      fx.lift=between(begin[2],end[2],t)+(target.arrowLift??0)+(row.zOffset??0)*unit+(row.head?70:0);
       if(row.circlePattern){image.x=Math.cos(circleAngle)*between(inner,outer,t);image.y=Math.sin(circleAngle)*between(inner,outer,t)-30;}
       if(frames.length>1)image.texture=lookup(frames[Math.floor(elapsed/(row.frameDelay??100))%frames.length]);
       if(sheet){image.dir=row.direction?(source.sprite?.dir??0):0;image.update(ms)}
       const w=between(w0,w1,q),h=between(h0,h1,q);
       if(row.type==='2D'||row.type==='3D'&&!sheet&&!row.playSprite){image.width=Math.max(.01,w);image.height=Math.max(.01,h);}
       else image.scale.set(Math.max(.01,w/100),Math.max(.01,h/100));
-      image.rotation=angle+(row.rotateToTarget?direction(source,fixed):0)+(row.rotate?t*Math.PI*2*(row.nbOfRotation??1):0);
+      const heading=row.rotateToTarget?shotAngle(game,from,fixed,fx.lift):0;
+      // ACT a2 points left for the skeleton arrow and right for the spear.
+      image.rotation=(shaft?(sheet==='fx_arrow'?Math.PI:0):angle)+heading+(row.rotate?t*Math.PI*2*(row.nbOfRotation??1):0);
       const fade=(row.fadeIn?clamp(t*4):1)*(row.fadeOut||row.fade?clamp((1-t)*3):1);
       image.alpha=clamp(value(row.alphaMax,1),0,1)*fade*(row.sparkling ? .65+.35*Math.abs(Math.cos(t*Math.PI*(row.sparkNumber??3))) : 1);
+      // Even an adjacent-cell shot must reach the screen once at a low frame rate.
+      if(shaft&&ms>0&&ms<=100&&!sampled){
+        sampled=true;
+        if(t>=1){image.alpha=1;return false;}
+      }
       return t>=1;
     }};
     fx.update(0);game.addFx(fx);
@@ -200,7 +217,8 @@
   }
 
   function render(game,row,target,source){
-    const duration=Number.isFinite(target.durationMs)?Math.max(100,target.durationMs):value(row.durationRand,value(row.duration,650));
+    const duration=Number.isFinite(target.durationMs)?Math.max(1,target.durationMs):
+      row.sheet==='fx_arrow'?arrowFlight(source,target):value(row.durationRand,value(row.duration,650));
     if(row.type==='boltRain')return boltRain(game,row,target);
     if(row.type==='ice')return row.kind==='path'?iceSpikes(game,row,source,target):iceSpikes(game,row,target,source);
     if(row.type==='heaven')return heavenDrive(game,row,target,source);
@@ -236,6 +254,34 @@
   }
   host.ROClassicProcedural={
     supports:id=>Object.hasOwn(rows,id),
+    isProjectile:id=>rows[id]?.some(row=>row.toSrc)??false,
+    arrowFlight,
+    preloadArrows(){
+      const pending=renderer()?.prepareSheet('fx_arrow');
+      if(pending)pending.catch(error=>console.warn('箭矢圖集載入失敗',error));
+    },
+    shootArrow(game,from,to,durationMs,lane=0){
+      return this.play(game,'ef_arrow_projectile',{x:to.x,y:to.y,durationMs,arrowLift:lane*renderer().unit*.15},{x:from.x,y:from.y});
+    },
+    arrowShower(game,from,targets){
+      const drawn=new Set(),unit=renderer().unit;
+      for(const enemy of targets){
+        for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++){
+          const spot={x:enemy.x+x*unit,y:enemy.y+y*unit};
+          const cell=Math.round(spot.x/unit)+','+Math.round(spot.y/unit);
+          if(drawn.has(cell))continue;
+          if(game.fxRoom&&!game.fxRoom())return;
+          drawn.add(cell);
+          this.shootArrow(game,from,spot,arrowFlight(from,spot));
+        }
+      }
+    },
+    skinProjectile(id,view){
+      const row=rows[id]?.find(layer=>layer.toSrc),name=row?.images?.[0];
+      if(!name||!renderer()||!('texture' in view))return;
+      const apply=()=>{if(!view.destroyed){view.texture=lookup(name);view.tint=0xffffff;}};
+      const pending=load(name);if(pending)pending.then(apply).catch(error=>console.warn('投射物圖像載入失敗',error));else apply();
+    },
     play(game,id,target,source=game.player){
       if(!this.supports(id)||!renderer()||!alive(game)||!Number.isFinite(target?.x)||!Number.isFinite(target?.y))return false;
       source=source&&Number.isFinite(source.x)&&Number.isFinite(source.y)?source:target;

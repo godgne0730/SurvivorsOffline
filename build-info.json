@@ -1,9 +1,9 @@
 {
-  "version": "1c13f02b7dce0e8eab20",
-  "releaseVersion": "2.1.0",
-  "buildNumber": 21,
+  "version": "81b1c42449624c5883d1",
+  "releaseVersion": "2.1.1",
+  "buildNumber": 22,
   "fileCount": 10025,
-  "totalBytes": 298390278,
+  "totalBytes": 298403257,
   "files": [
     {
       "path": ".nojekyll",
@@ -12,8 +12,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 2147,
-      "sha256": "8e8f2b022f3b08161afd2399bb531581d97fb5563d73e4c8c633a9374fe24a93"
+      "bytes": 2423,
+      "sha256": "bdc79f9ae62dc1c24e58d89fcf75f51c58a6661d40b58d2011d7a6ccbc7bc795"
     },
     {
       "path": "app-manifest.json",
@@ -49787,13 +49787,13 @@
     },
     {
       "path": "web/build/WebGLRenderer-Bk_XGlqm.js",
-      "bytes": 74187,
-      "sha256": "1f2a2430d48a749161c8e92567af9a2467e72ece34a33b6fc943b7e0c3457a14"
+      "bytes": 74201,
+      "sha256": "e904e916228d3d95df749859f964f8b8aeed2240396cc505eec67b9046beb325"
     },
     {
       "path": "web/build/WebGPURenderer-Dfok9cgl.js",
-      "bytes": 56769,
-      "sha256": "1e30b6abb44565e0315af2584f833a6fd030cd048717c78323e8d663cd5483ff"
+      "bytes": 56749,
+      "sha256": "6dba13ad4850dd33990f9bac92959392ab13fe22f624c5d604495a8ad36921ab"
     },
     {
       "path": "web/build/browserAll-BpZ2adEe.js",
@@ -49813,7 +49813,7 @@
     {
       "path": "web/build/main-2n_YvaNQ.js",
       "bytes": 1364614,
-      "sha256": "e2dcfeddc061c1b5a17181c5067bdbfb05836d6f9f3808649ecc568c0c386406"
+      "sha256": "17c200b0ad05f787bc46ec899db60ec1f8440b9e78f34e868d7070dbdce6ff48"
     },
     {
       "path": "web/build/main-BT36rxL4.css",
@@ -49822,8 +49822,8 @@
     },
     {
       "path": "web/build/soul_linker-BNTKE1pN.js",
-      "bytes": 2782980,
-      "sha256": "75a9f4bfc02329806ee6f1ce5ac4fe80b451fae43697c81139dc150fef197bac"
+      "bytes": 2789256,
+      "sha256": "226e0d8669088aab304adaaa9764c1ff5344637e66fd8106414d7e80c8a848a2"
     },
     {
       "path": "web/build/webworkerAll-CxShr0sz.js",
@@ -49877,8 +49877,8 @@
     },
     {
       "path": "web/offline/classic-procedural.js",
-      "bytes": 48852,
-      "sha256": "aa532e1d97deae9d7a2c556e2261c75f385f958d64e978561727368caf95cdc8"
+      "bytes": 51145,
+      "sha256": "ae458aee35c2de13c05a7231e9f5ea0aee5c6007fa2a4aa0ddac3e75838c9cbc"
     },
     {
       "path": "web/offline/classic-procedural/acid-bottle.png",
@@ -50077,8 +50077,8 @@
     },
     {
       "path": "web/offline/classic-skills.js",
-      "bytes": 5178,
-      "sha256": "51e21919b1164fc6a03d591feb7b17de3f9b62a08f43e0797b775f1f90f8d861"
+      "bytes": 9167,
+      "sha256": "ea2ffd13e01ac21daa59655841df4773450fc772c94f5e35fa4f0ea130501923"
     },
     {
       "path": "web/offline/landscape.css",
@@ -50092,8 +50092,8 @@
     },
     {
       "path": "web/offline/locales/zh-TW-combat.json",
-      "bytes": 76302,
-      "sha256": "e50527c79b55c4043d92f574a93793d8af1417e58f7a2785a1baa9f0215528ad"
+      "bytes": 76453,
+      "sha256": "f640fbd1a0a84dc13207a53a99cae42106431fba52fa5994889e6b74a2cd0f17"
     },
     {
       "path": "web/offline/locales/zh-TW-manifest.json",

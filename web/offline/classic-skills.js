@@ -2,7 +2,7 @@ import {skills, layers} from './classic-skill-data.js';
 
 // These skills own their visuals, including actors that persist beyond a cast.
 const independent = new Set(['blitz_beat','detecting','lord_of_vermilion','call_spirits','sight','call_homunculus','summon_flora','graffiti','hindsight','abracadabra','beast_strafing']);
-const onSelf = new Set(['impositio','magnificat','weapon_perfection','spear_quicken','twohand_quicken','kaahi','kaizel','kaupe','union','fury','concentration','enchant_poison','cloaking','hiding','sprint']);
+const onSelf = new Set(['impositio','magnificat','weapon_perfection','spear_quicken','twohand_quicken','kaahi','kaizel','kaupe','union','fury','concentration','enchant_poison','cloaking','hiding','sprint','grand_cross','auto_guard','heal','blessing','signum_crucis','crazy_uproar','desperado','raid','axe_tornado']);
 const attackStages = ['effectId','effectIdOnCaster','successEffectId','successEffectIdOnCaster','groundEffectId','groundEffectIdByLevel','releaseEffectId'];
 const list = value => value == null ? [] : Array.isArray(value) ? value : [value];
 const supported = id => layers[id]?.length || globalThis.ROClassicProcedural?.supports(id);
@@ -10,7 +10,7 @@ const canPlay = ids => list(ids).some(supported);
 const warmed = new WeakSet();
 
 function active(game,id) {
-  return Boolean(skills[id] && !independent.has(id) && game.fxRoom && !game.runItems?.deityLevel?.(id));
+  return Boolean(skills[id] && !independent.has(id) && game.fxRoom && !(id==='thunderstorm'&&game.stats?.firestorm));
 }
 function scope(game, frame, run) {
   const previous=game.pcSkillFrame;
@@ -63,14 +63,76 @@ function warm(game,weapon) {
       for(const layer of layers[id]??[])
         for(const key of layer.keys) globalThis.ROClassicNative.warm(key);
 }
+function meteor(game, weapon, x, y) {
+  return active(game,weapon.id) && weapon.id==='meteor_storm' &&
+    emit(game,skills[weapon.id].effectId,{x,y},game.player);
+}
+function status(game,id,enemy) {
+  return id==='provoke' && active(game,id) && emit(game,skills[id].successEffectId,enemy,game.player);
+}
+const boltStages = {firebolt:'damageEffectIdOnTarget',coldbolt:'damageEffectIdOnTarget',lightning:'damageEffectIdOnTarget',frost_diver:'damageEffectIdOnCaster',soul_strike:'damageEffectIdOnCaster'};
+function launchSpell(game,weapon,enemy,index,count) {
+  const id=weapon.id,field=boltStages[id];
+  if(!field || !active(game,id))return false;
+  const caster=field==='damageEffectIdOnCaster', player=game.player;
+  const played=id==='soul_strike'?soul(game,player,enemy,index,count):
+    emit(game,skills[id][field],caster?player:enemy,caster?enemy:player);
+  if(played&&game.pcSkillFrame)game.pcSkillFrame.launched=true;
+  return played;
+}
+// Original EF_SOULSTRIKE uses twelve time-offset particle1 images along a 40-tick curve.
+function soul(game, source, enemy, index, count) {
+  const R=globalThis.ROClassicProcRenderer;
+  if(!R?.sheet || !game.screenPos || !game.pixelScale)return false;
+  if(!game.fxRoom())return true;
+  const origin={x:source.x,y:source.y},dx=enemy.x-source.x,dy=enemy.y-source.y,distance=Math.hypot(dx,dy);
+  const countPC=Math.max(1,Math.min(7,count)),step=[0,1,180,90,60,45,30,25][countPC];
+  const angle=((1+index%countPC)*step-(countPC===1?0:90))*Math.PI/180,unit=R.unit/5;
+  const dirX=distance?dx/distance:0,dirY=distance?dy/distance:1;
+  const draw=()=>{
+    if(game.player?.view?.destroyed || game.world?.destroyed || !game.fxRoom())return;
+    const view=R.container(),sprites=[];
+    for(let i=0;i<12;i++) {
+      const sprite=R.sheet('fx_particle1',0);
+      sprite.blendMode='add';sprite.alpha=(254/255)*(1-i/12);sprite.scale.set(2.75*(1-i/24));sprite.visible=false;
+      view.addChild(sprite);sprites.push(sprite);
+    }
+    let elapsed=0;
+    game.addFx({view,anchor:origin,upright:true,update(ms) {
+      elapsed+=ms;
+      const tick=Math.floor(elapsed*60/1000);
+      if(tick>=40)return true;
+      const center=game.screenPos(origin.x,origin.y,0),scale=game.pixelScale(origin.x,origin.y);
+      if(scale<=0)return false;
+      for(let i=0;i<sprites.length;i++) {
+        const n=tick+1-i,sprite=sprites[i];sprite.visible=n>=1;
+        if(!sprite.visible)continue;
+        const along=n*distance/40-(3.5*n-.175*n*(n+1)/2)*unit;
+        const bow=(-2*n+.1*n*(n-1)/2)*unit,side=bow*Math.sin(angle);
+        const p=game.screenPos(origin.x+dirX*along+dirY*side,origin.y+dirY*along-dirX*side,10*unit-bow*Math.cos(angle));
+        sprite.position.set((p.x-center.x)/scale,(p.y-center.y)/scale);
+        sprite.update(ms);
+      }
+      return false;
+    }});
+  };
+  const pending=R.prepareSheet('fx_particle1');
+  if(pending)pending.then(draw).catch(error=>console.warn('桌機技能圖層載入失敗',error));else draw();
+  return true;
+}
 function cast(game,weapon,frame,aim) {
   const s=skills[weapon.id],actor=game.player,target=point(aim,frame.hitTarget??actor),spot=onSelf.has(weapon.id)?actor:target;
   emit(game,s.effectIdOnCaster,actor,spot);
   emit(game,s.successEffectIdOnCaster,actor,spot);
-  emit(game,s.effectId,spot,actor);
-  emit(game,s.successEffectId,spot,actor);
-  emit(game,s.releaseEffectId,target,actor);
-  emit(game,s.beforeHitEffectId,target,actor);
+  const victims=aim?.kind==='enemy'&&!onSelf.has(weapon.id)?new Set(aim.all?.length?aim.all:[spot]):[spot];
+  for(const victim of victims) {
+    if(weapon.id!=='meteor_storm' && weapon.id!=='decrease_agi')emit(game,s.effectId,victim,actor);
+    if(weapon.id!=='provoke')emit(game,s.successEffectId,victim,actor);
+  }
+  if(weapon.id!=='arrow_shower')emit(game,s.releaseEffectId,target,actor);
+  // A collision projectile already draws the thrown weapon all the way to impact or return.
+  if(!(weapon.cfg?.view&&weapon.cfg.speed&&globalThis.ROClassicProcedural?.isProjectile?.(s.beforeHitEffectId)))
+    emit(game,s.beforeHitEffectId,target,actor);
   if(weapon.id!=='fire_wall') {
     emit(game,s.groundEffectId,spot,actor);
     const levels=s.groundEffectIdByLevel;
@@ -102,13 +164,16 @@ function hit(game,enemy,meta,amount,frame) {
   const scopeFrame=frame?.id===id?frame:game.weapons?.find(w=>w.id===id)?.pcLastFrame;
   let played=false;
   if(amount>0) {
-    emit(game,s.damageEffectIdOnCaster,player,enemy);
-    played=emit(game,s.damageEffectIdOnTarget,enemy,player);
+    if(!frame?.launched || boltStages[id]!=='damageEffectIdOnCaster')emit(game,s.damageEffectIdOnCaster,player,enemy);
+    // Double Strafe releases both arrows from the bow; damage only supplies their impact flashes.
+    if(id!=='double_strafe' && (!frame?.launched || boltStages[id]!=='damageEffectIdOnTarget'))
+      played=emit(game,s.damageEffectIdOnTarget,enemy,player);
     if(!scopeFrame?.first.has(enemy)) {
       scopeFrame?.first.add(enemy);
       played=emit(game,s.firstHitEffectId,enemy,player)||played;
     }
   }
+  if(id==='decrease_agi') emit(game,s.effectId,enemy,player);
   return emit(game,s.hitEffectId,enemy,player)||played;
 }
 function begin(game,weapon,aim) {
@@ -116,6 +181,7 @@ function begin(game,weapon,aim) {
   warm(game,weapon);
   const s=skills[weapon.id];
   emit(game,s.beginCastEffectId,game.player,point(aim,game.player));
-  return s.hideCastAura===true;
+  return s;
 }
-globalThis.ROClassicSkills={bind, warm, begin, hit, scope, emit};
+const projectileEffect=id=>skills[id]?.beforeHitEffectId;
+globalThis.ROClassicSkills={projectileEffect,bind, warm, begin, hit, scope, emit, meteor, status, launchSpell};

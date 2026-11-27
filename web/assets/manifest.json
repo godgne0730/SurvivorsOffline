@@ -278,7 +278,23 @@
     "permeter": "sprites/permeter.json",
     "solider": "sprites/solider.json",
     "turtle_general": "sprites/turtle_general.json",
-    "wraith": "sprites/wraith.json"
+    "wraith": "sprites/wraith.json",
+    "arclouze": "sprites/arclouze.json",
+    "gargoyle": "sprites/gargoyle.json",
+    "sting": "sprites/sting.json",
+    "anolian": "sprites/anolian.json",
+    "wind_ghost": "sprites/wind_ghost.json",
+    "raydric_archer": "sprites/raydric_archer.json",
+    "khalitzburg": "sprites/khalitzburg.json",
+    "raydric": "sprites/raydric.json",
+    "giant_whisper": "sprites/giant_whisper.json",
+    "rideword": "sprites/rideword.json",
+    "abysmal_knight": "sprites/abysmal_knight.json",
+    "alice": "sprites/alice.json",
+    "mysteltainn": "sprites/mysteltainn.json",
+    "bloody_knight": "sprites/bloody_knight.json",
+    "thara_frog": "sprites/thara_frog.json",
+    "pest": "sprites/pest.json"
   },
   "icons": {
     "job_knight": "icons/job_knight.png",
@@ -2269,7 +2285,43 @@
     "turtle_general_damage": "sounds/turtle_general_damage.wav",
     "turtle_general_die": "sounds/turtle_general_die.wav",
     "wraith_attack": "sounds/wraith_attack.wav",
-    "wraith_die": "sounds/wraith_die.wav"
+    "wraith_die": "sounds/wraith_die.wav",
+    "bloody_knight_stand": "sounds/bloody_knight_stand.wav",
+    "wind_ghost_move": "sounds/wind_ghost_move.wav",
+    "sting_move": "sounds/sting_move.wav",
+    "anolian_damage": "sounds/anolian_damage.wav",
+    "bloody_knight_die": "sounds/bloody_knight_die.wav",
+    "arclouse_attack": "sounds/arclouse_attack.wav",
+    "pest_move": "sounds/pest_move.wav",
+    "wind_ghost_attack": "sounds/wind_ghost_attack.wav",
+    "mysteltainn_attack": "sounds/mysteltainn_attack.wav",
+    "raydric_die": "sounds/raydric_die.wav",
+    "arclouse_die": "sounds/arclouse_die.wav",
+    "anolian_attack": "sounds/anolian_attack.wav",
+    "bloody_knight_move1": "sounds/bloody_knight_move1.wav",
+    "raydric_move": "sounds/raydric_move.wav",
+    "knight_of_abyss_die": "sounds/knight_of_abyss_die.wav",
+    "rideword_stand": "sounds/rideword_stand.wav",
+    "bloody_knight_move2": "sounds/bloody_knight_move2.wav",
+    "knight_of_abyss_stand": "sounds/knight_of_abyss_stand.wav",
+    "knight_of_abyss_move": "sounds/knight_of_abyss_move.wav",
+    "sting_die": "sounds/sting_die.wav",
+    "khalitzburg_die": "sounds/khalitzburg_die.wav",
+    "monster_book": "sounds/monster_book.wav",
+    "anolian_move1": "sounds/anolian_move1.wav",
+    "raydric_attack": "sounds/raydric_attack.wav",
+    "anolian_move2": "sounds/anolian_move2.wav",
+    "knight_of_abyss_attack1": "sounds/knight_of_abyss_attack1.wav",
+    "pest_die": "sounds/pest_die.wav",
+    "knight_of_abyss_attack2": "sounds/knight_of_abyss_attack2.wav",
+    "raydric_damage": "sounds/raydric_damage.wav",
+    "gargoyle_die": "sounds/gargoyle_die.wav",
+    "pest_attack": "sounds/pest_attack.wav",
+    "khalitzburg_move": "sounds/khalitzburg_move.wav",
+    "khalitzburg_attack": "sounds/khalitzburg_attack.wav",
+    "_attack_dagger": "sounds/_attack_dagger.wav",
+    "anolian_die": "sounds/anolian_die.wav",
+    "sting_attack": "sounds/sting_attack.wav"
   },
   "bgm": {
     "field": "bgm/field.mp3",
@@ -13843,6 +13895,216 @@
       "description": [
         "防禦力 7。"
       ]
+    },
+    "2624": {
+      "name": "Glove",
+      "slots": 1,
+      "icon": "items/2624.png",
+      "art": "items/2624_art.png",
+      "description": [
+        "可依裝備等級與品質取得能力加成。",
+        "DEX +1。"
+      ]
+    },
+    "1611": {
+      "name": "Arc Wand",
+      "slots": 2,
+      "icon": "items/1611.png",
+      "art": "items/1611_art.png",
+      "description": [
+        "攻擊力 60。",
+        "INT +3，傷害增加 15%。"
+      ]
+    },
+    "2315": {
+      "name": "Chain Mail",
+      "slots": 1,
+      "icon": "items/2315.png",
+      "art": "items/2315_art.png",
+      "description": [
+        "防禦力 8。"
+      ]
+    },
+    "1715": {
+      "name": "Arbalest",
+      "slots": 2,
+      "icon": "items/1715.png",
+      "art": "items/1715_art.png",
+      "description": [
+        "攻擊力 90。",
+        "DEX +2。"
+      ]
+    },
+    "2266": {
+      "name": "Iron Cain",
+      "slots": 0,
+      "icon": "items/2266.png",
+      "art": "items/2266_art.png",
+      "description": [
+        "防禦力 1。"
+      ]
+    },
+    "1158": {
+      "name": "Two-Handed Sword",
+      "slots": 2,
+      "icon": "items/1158.png",
+      "art": "items/1158_art.png",
+      "description": [
+        "攻擊力 160。"
+      ]
+    },
+    "1116": {
+      "name": "Katana",
+      "slots": 3,
+      "icon": "items/1116.png",
+      "art": "items/1116_art.png",
+      "description": [
+        "攻擊力 60。"
+      ]
+    },
+    "1554": {
+      "name": "Book of Mother Earth",
+      "slots": 0,
+      "icon": "items/1554.png",
+      "art": "items/1554_art.png",
+      "description": [
+        "攻擊力 90。",
+        "防禦力 +2。"
+      ]
+    },
+    "1556": {
+      "name": "Book of Gust of Wind",
+      "slots": 0,
+      "icon": "items/1556.png",
+      "art": "items/1556_art.png",
+      "description": [
+        "攻擊力 90。",
+        "移動速度增加 5%。"
+      ]
+    },
+    "2318": {
+      "name": "Lord's Clothes",
+      "slots": 1,
+      "icon": "items/2318.png",
+      "art": "items/2318_art.png",
+      "description": [
+        "防禦力 8。",
+        "受到傷害減少 5%，INT +1。"
+      ]
+    },
+    "1421": {
+      "name": "Battle Hook",
+      "slots": 1,
+      "icon": "items/1421.png",
+      "art": "items/1421_art.png",
+      "description": [
+        "攻擊力 140。",
+        "命中時有 5% 機率擊暈敵人。"
+      ]
+    },
+    "2407": {
+      "name": "Crystal Pumps",
+      "slots": 0,
+      "icon": "items/2407.png",
+      "art": "items/2407_art.png",
+      "description": [
+        "可依裝備等級與品質取得能力加成。",
+        "受到傷害減少 5%，LUK +5。"
+      ]
+    },
+    "5085": {
+      "name": "Small Ribbons",
+      "slots": 0,
+      "icon": "items/5085.png",
+      "art": "items/5085_art.png",
+      "description": [
+        "防禦力 1。"
+      ]
+    },
+    "1155": {
+      "name": "Bastard Sword",
+      "slots": 3,
+      "icon": "items/1155.png",
+      "art": "items/1155_art.png",
+      "description": [
+        "攻擊力 115。"
+      ]
+    },
+    "2229": {
+      "name": "Helm",
+      "slots": 1,
+      "icon": "items/2229.png",
+      "art": "items/2229_art.png",
+      "description": [
+        "防禦力 6。"
+      ]
+    },
+    "2317": {
+      "name": "Full Plate",
+      "slots": 1,
+      "icon": "items/2317.png",
+      "art": "items/2317_art.png",
+      "description": [
+        "防禦力 10。"
+      ]
+    },
+    "2125": {
+      "name": "Strong Shield",
+      "slots": 1,
+      "icon": "items/2125.png",
+      "art": "items/2125_art.png",
+      "description": [
+        "防禦力 4。",
+        "防禦力再增加 5，VIT +2。"
+      ]
+    },
+    "1170": {
+      "name": "Katzbalger",
+      "slots": 0,
+      "icon": "items/1170.png",
+      "art": "items/1170_art.png",
+      "description": [
+        "攻擊力 175。",
+        "VIT +5，防禦力再增加 10。"
+      ]
+    },
+    "13015": {
+      "name": "Hakujin",
+      "slots": 1,
+      "icon": "items/13015.png",
+      "art": "items/13015_art.png",
+      "description": [
+        "攻擊力 120。",
+        "INT +2，每秒回復 1 HP。"
+      ]
+    },
+    "2217": {
+      "name": "Biretta",
+      "slots": 1,
+      "icon": "items/2217.png",
+      "art": "items/2217_art.png",
+      "description": [
+        "防禦力 4。"
+      ]
+    },
+    "2508": {
+      "name": "Ragamuffin Manteau",
+      "slots": 0,
+      "icon": "items/2508.png",
+      "art": "items/2508_art.png",
+      "description": [
+        "防禦力 1。",
+        "受到傷害減少 10%。"
+      ]
+    },
+    "2259": {
+      "name": "Mini Propeller",
+      "slots": 0,
+      "icon": "items/2259.png",
+      "art": "items/2259_art.png",
+      "description": [
+        "防禦力 1。"
+      ]
     }
   },
   "cards": {
@@ -15463,6 +15725,118 @@
       "description": [
         "重複施放機率增加 12%，技能範圍增加 12%。"
       ]
+    },
+    "4240": {
+      "name": "Arclouze Card",
+      "image": "cards/4240.png",
+      "description": [
+        "防禦力 +2，受到傷害減少 3%。"
+      ]
+    },
+    "4149": {
+      "name": "Gargoyle Card",
+      "image": "cards/4149.png",
+      "description": [
+        "發現率增加 6%。"
+      ]
+    },
+    "4226": {
+      "name": "Sting Card",
+      "image": "cards/4226.png",
+      "description": [
+        "防禦力 +2，VIT +1。"
+      ]
+    },
+    "4234": {
+      "name": "Anolian Card",
+      "image": "cards/4234.png",
+      "description": [
+        "DEX +2、AGI +1。"
+      ]
+    },
+    "4264": {
+      "name": "Wind Ghost Card",
+      "image": "cards/4264.png",
+      "description": [
+        "詠唱加速 8%。"
+      ]
+    },
+    "4187": {
+      "name": "Raydric Archer Card",
+      "image": "cards/4187.png",
+      "description": [
+        "獲得 Zeny 增加 10%。"
+      ]
+    },
+    "4136": {
+      "name": "Khalitzburg Card",
+      "image": "cards/4136.png",
+      "description": [
+        "受到傷害減少 8%，防禦力 +1。"
+      ]
+    },
+    "4133": {
+      "name": "Raydric Card",
+      "image": "cards/4133.png",
+      "description": [
+        "受到傷害減少 10%。"
+      ]
+    },
+    "4303": {
+      "name": "Giant Whisper Card",
+      "image": "cards/4303.png",
+      "description": [
+        "迴避增加 10%，最大 HP 增加 3%。"
+      ]
+    },
+    "4185": {
+      "name": "Rideword Card",
+      "image": "cards/4185.png",
+      "description": [
+        "INT +2。"
+      ]
+    },
+    "4140": {
+      "name": "Abysmal Knight Card",
+      "image": "cards/4140.png",
+      "description": [
+        "對首領與菁英的傷害增加 25%。"
+      ]
+    },
+    "4253": {
+      "name": "Alice Card",
+      "image": "cards/4253.png",
+      "description": [
+        "受到傷害減少 8%，VIT +2。"
+      ]
+    },
+    "4207": {
+      "name": "Mysteltainn Card",
+      "image": "cards/4207.png",
+      "description": [
+        "防禦力 +1，迴避增加 6%。"
+      ]
+    },
+    "4320": {
+      "name": "Bloody Knight Card",
+      "image": "cards/4320.png",
+      "description": [
+        "技能範圍增加 12%，傷害增加 6%。"
+      ]
+    },
+    "4058": {
+      "name": "Thara Frog Card",
+      "image": "cards/4058.png",
+      "description": [
+        "受到傷害減少 5%。"
+      ]
+    },
+    "4315": {
+      "name": "Pest Card",
+      "image": "cards/4315.png",
+      "description": [
+        "命中時有 3% 機率擊暈敵人。"
+      ]
     }
   },
   "equipment": {
@@ -16066,6 +16440,26 @@
       "39045": {
         "m": "parts/equip/acc_5053_m.json",
         "f": "parts/equip/acc_5053_f.json"
+      },
+      "2266": {
+        "m": "parts/equip/acc_2266_m.json",
+        "f": "parts/equip/acc_2266_f.json"
+      },
+      "5085": {
+        "m": "parts/equip/acc_5085_m.json",
+        "f": "parts/equip/acc_5085_f.json"
+      },
+      "2229": {
+        "m": "parts/equip/acc_2229_m.json",
+        "f": "parts/equip/acc_2229_f.json"
+      },
+      "2217": {
+        "m": "parts/equip/acc_2217_m.json",
+        "f": "parts/equip/acc_2217_f.json"
+      },
+      "2259": {
+        "m": "parts/equip/acc_2259_m.json",
+        "f": "parts/equip/acc_2259_f.json"
       }
     },
     "weapons": {
@@ -19174,6 +19568,267 @@
           "단검_검": "parts/equip/wpn_assassin_f_dagger_sword.json",
           "검_검": "parts/equip/wpn_assassin_f_sword_sword.json"
         }
+      }
+    },
+    "classic": {
+      "weapons": {
+        "swordsman": {
+          "m": {
+            "1162": "parts/equip/pc_swordsman_m_1162.json",
+            "1461": "parts/equip/pc_swordsman_m_1461.json",
+            "1158": "parts/equip/pc_swordsman_m_1158.json",
+            "1116": "parts/equip/pc_swordsman_m_1116.json",
+            "1155": "parts/equip/pc_swordsman_m_1155.json"
+          },
+          "f": {
+            "1162": "parts/equip/pc_swordsman_f_1162.json",
+            "1461": "parts/equip/pc_swordsman_f_1461.json",
+            "1158": "parts/equip/pc_swordsman_f_1158.json",
+            "1116": "parts/equip/pc_swordsman_f_1116.json",
+            "1155": "parts/equip/pc_swordsman_f_1155.json"
+          }
+        },
+        "knight": {
+          "m": {
+            "1162": "parts/equip/pc_knight_m_1162.json",
+            "1461": "parts/equip/pc_knight_m_1461.json",
+            "1158": "parts/equip/pc_knight_m_1158.json",
+            "1116": "parts/equip/pc_knight_m_1116.json",
+            "1155": "parts/equip/pc_knight_m_1155.json"
+          },
+          "f": {
+            "1162": "parts/equip/pc_knight_f_1162.json",
+            "1461": "parts/equip/pc_knight_f_1461.json",
+            "1158": "parts/equip/pc_knight_f_1158.json",
+            "1116": "parts/equip/pc_knight_f_1116.json",
+            "1155": "parts/equip/pc_knight_f_1155.json"
+          }
+        },
+        "crusader": {
+          "m": {
+            "1162": "parts/equip/pc_crusader_m_1162.json",
+            "1461": "parts/equip/pc_crusader_m_1461.json",
+            "1158": "parts/equip/pc_crusader_m_1158.json",
+            "1116": "parts/equip/pc_crusader_m_1116.json",
+            "1155": "parts/equip/pc_crusader_m_1155.json"
+          },
+          "f": {
+            "1162": "parts/equip/pc_crusader_f_1162.json",
+            "1461": "parts/equip/pc_crusader_f_1461.json",
+            "1158": "parts/equip/pc_crusader_f_1158.json",
+            "1116": "parts/equip/pc_crusader_f_1116.json",
+            "1155": "parts/equip/pc_crusader_f_1155.json"
+          }
+        },
+        "merchant": {
+          "m": {
+            "1358": "parts/equip/pc_merchant_m_1358.json",
+            "1366": "parts/equip/pc_merchant_m_1366.json"
+          },
+          "f": {
+            "1358": "parts/equip/pc_merchant_f_1358.json",
+            "1366": "parts/equip/pc_merchant_f_1366.json"
+          }
+        },
+        "blacksmith": {
+          "m": {
+            "1358": "parts/equip/pc_blacksmith_m_1358.json",
+            "1366": "parts/equip/pc_blacksmith_m_1366.json"
+          },
+          "f": {
+            "1358": "parts/equip/pc_blacksmith_f_1358.json",
+            "1366": "parts/equip/pc_blacksmith_f_1366.json"
+          }
+        },
+        "alchemist": {
+          "m": {
+            "1358": "parts/equip/pc_alchemist_m_1358.json",
+            "1366": "parts/equip/pc_alchemist_m_1366.json"
+          },
+          "f": {
+            "1358": "parts/equip/pc_alchemist_f_1358.json",
+            "1366": "parts/equip/pc_alchemist_f_1366.json"
+          }
+        },
+        "priest": {
+          "m": {
+            "1529": "parts/equip/pc_priest_m_1529.json",
+            "1614": "parts/equip/pc_priest_m_1614.json",
+            "1615": "parts/equip/pc_priest_m_1615.json",
+            "1611": "parts/equip/pc_priest_m_1611.json",
+            "1554": "parts/equip/pc_priest_m_1554.json",
+            "1556": "parts/equip/pc_priest_m_1556.json"
+          },
+          "f": {
+            "1529": "parts/equip/pc_priest_f_1529.json",
+            "1614": "parts/equip/pc_priest_f_1614.json",
+            "1615": "parts/equip/pc_priest_f_1615.json",
+            "1611": "parts/equip/pc_priest_f_1611.json",
+            "1554": "parts/equip/pc_priest_f_1554.json",
+            "1556": "parts/equip/pc_priest_f_1556.json"
+          }
+        },
+        "sage": {
+          "m": {
+            "1551": "parts/equip/pc_sage_m_1551.json",
+            "1614": "parts/equip/pc_sage_m_1614.json",
+            "1615": "parts/equip/pc_sage_m_1615.json",
+            "1611": "parts/equip/pc_sage_m_1611.json",
+            "1554": "parts/equip/pc_sage_m_1554.json",
+            "1556": "parts/equip/pc_sage_m_1556.json"
+          },
+          "f": {
+            "1551": "parts/equip/pc_sage_f_1551.json",
+            "1614": "parts/equip/pc_sage_f_1614.json",
+            "1615": "parts/equip/pc_sage_f_1615.json",
+            "1611": "parts/equip/pc_sage_f_1611.json",
+            "1554": "parts/equip/pc_sage_f_1554.json",
+            "1556": "parts/equip/pc_sage_f_1556.json"
+          }
+        },
+        "mage": {
+          "m": {
+            "1614": "parts/equip/pc_mage_m_1614.json",
+            "1615": "parts/equip/pc_mage_m_1615.json",
+            "1611": "parts/equip/pc_mage_m_1611.json"
+          },
+          "f": {
+            "1614": "parts/equip/pc_mage_f_1614.json",
+            "1615": "parts/equip/pc_mage_f_1615.json",
+            "1611": "parts/equip/pc_mage_f_1611.json"
+          }
+        },
+        "acolyte": {
+          "m": {
+            "1614": "parts/equip/pc_acolyte_m_1614.json",
+            "1615": "parts/equip/pc_acolyte_m_1615.json",
+            "1611": "parts/equip/pc_acolyte_m_1611.json"
+          },
+          "f": {
+            "1614": "parts/equip/pc_acolyte_f_1614.json",
+            "1615": "parts/equip/pc_acolyte_f_1615.json",
+            "1611": "parts/equip/pc_acolyte_f_1611.json"
+          }
+        },
+        "wizard": {
+          "m": {
+            "1614": "parts/equip/pc_wizard_m_1614.json",
+            "1615": "parts/equip/pc_wizard_m_1615.json",
+            "1611": "parts/equip/pc_wizard_m_1611.json"
+          },
+          "f": {
+            "1614": "parts/equip/pc_wizard_f_1614.json",
+            "1615": "parts/equip/pc_wizard_f_1615.json",
+            "1611": "parts/equip/pc_wizard_f_1611.json"
+          }
+        },
+        "archer": {
+          "m": {
+            "1710": "parts/equip/pc_archer_m_1710.json",
+            "1715": "parts/equip/pc_archer_m_1715.json"
+          },
+          "f": {
+            "1710": "parts/equip/pc_archer_f_1710.json",
+            "1715": "parts/equip/pc_archer_f_1715.json"
+          }
+        },
+        "hunter": {
+          "m": {
+            "1710": "parts/equip/pc_hunter_m_1710.json",
+            "1715": "parts/equip/pc_hunter_m_1715.json"
+          },
+          "f": {
+            "1710": "parts/equip/pc_hunter_f_1710.json",
+            "1715": "parts/equip/pc_hunter_f_1715.json"
+          }
+        },
+        "bard": {
+          "m": {
+            "1710": "parts/equip/pc_bard_m_1710.json"
+          }
+        },
+        "thief": {
+          "m": {
+            "1710": "parts/equip/pc_thief_m_1710.json",
+            "1715": "parts/equip/pc_thief_m_1715.json"
+          },
+          "f": {
+            "1710": "parts/equip/pc_thief_f_1710.json",
+            "1715": "parts/equip/pc_thief_f_1715.json"
+          }
+        },
+        "rogue": {
+          "m": {
+            "1710": "parts/equip/pc_rogue_m_1710.json",
+            "1715": "parts/equip/pc_rogue_m_1715.json"
+          },
+          "f": {
+            "1710": "parts/equip/pc_rogue_f_1710.json",
+            "1715": "parts/equip/pc_rogue_f_1715.json"
+          }
+        },
+        "monk": {
+          "m": {
+            "1816": "parts/equip/pc_monk_m_1816.json"
+          },
+          "f": {
+            "1816": "parts/equip/pc_monk_f_1816.json"
+          }
+        },
+        "gunslinger": {
+          "m": {
+            "13152": "parts/equip/pc_gunslinger_m_13152.json",
+            "13153": "parts/equip/pc_gunslinger_m_13153.json",
+            "13155": "parts/equip/pc_gunslinger_m_13155.json"
+          },
+          "f": {
+            "13152": "parts/equip/pc_gunslinger_f_13152.json",
+            "13153": "parts/equip/pc_gunslinger_f_13153.json",
+            "13155": "parts/equip/pc_gunslinger_f_13155.json"
+          }
+        }
+      },
+      "shields": {
+        "swordsman": {
+          "m": {
+            "2106": "parts/equip/pc_swordsman_m_2106.json"
+          },
+          "f": {
+            "2106": "parts/equip/pc_swordsman_f_2106.json"
+          }
+        },
+        "crusader": {
+          "m": {
+            "2106": "parts/equip/pc_crusader_m_2106.json"
+          },
+          "f": {
+            "2106": "parts/equip/pc_crusader_f_2106.json"
+          }
+        },
+        "knight": {
+          "m": {
+            "2106": "parts/equip/pc_knight_m_2106.json"
+          },
+          "f": {
+            "2106": "parts/equip/pc_knight_f_2106.json"
+          }
+        }
+      },
+      "shieldViews": {
+        "2101": 2101,
+        "2102": 2101,
+        "2103": 2103,
+        "2104": 2103,
+        "2106": 2106,
+        "2107": 2107,
+        "2108": 2107,
+        "2110": 2107,
+        "2114": 2103,
+        "2115": 2107,
+        "2116": 2101,
+        "2122": 2107,
+        "2124": 2103,
+        "2125": 2107
       }
     }
   },

@@ -1,7 +1,7 @@
 {
-  "version": "30057d5c2d3c017d1842",
+  "version": "d36e197972b027a83a4b",
   "fileCount": 9609,
-  "totalBytes": 288521741,
+  "totalBytes": 288528966,
   "files": [
     {
       "path": ".nojekyll",
@@ -47935,8 +47935,8 @@
     },
     {
       "path": "web/build/main-2n_YvaNQ.js",
-      "bytes": 1354622,
-      "sha256": "118884bbea3fe401c036fd6005c3a11493ccb5e3c9b8776391b863963d281fdb"
+      "bytes": 1359795,
+      "sha256": "1b297ae0d6860647dd6b812489a013daf3ab96953040886f19fd9a63abb4f5c4"
     },
     {
       "path": "web/build/main-BT36rxL4.css",
@@ -47945,8 +47945,8 @@
     },
     {
       "path": "web/build/soul_linker-BNTKE1pN.js",
-      "bytes": 2757312,
-      "sha256": "0417c750e64824c66f56c02ada0b061b21d3c5e4bc32af03f76b358cfcf3c54d"
+      "bytes": 2758819,
+      "sha256": "5d1dfb141bbe84b3fcbb089a4d586d69d8f8b0beac2cfcf735f8d8bc969d4e18"
     },
     {
       "path": "web/build/webworkerAll-CxShr0sz.js",
@@ -48000,8 +48000,8 @@
     },
     {
       "path": "web/offline/landscape.css",
-      "bytes": 4267,
-      "sha256": "1b48f18bdee085ff0336977e1b4d1d14bacc5449b397bbc2df64807ca6f16fb2"
+      "bytes": 4962,
+      "sha256": "e7c63465f6e7534d55bb2a49a9f07de385e298da114bb905615392dc1e2923d7"
     },
     {
       "path": "web/offline/local-api.js",
@@ -48025,8 +48025,8 @@
     },
     {
       "path": "web/offline/locales/zh-TW-ui.json",
-      "bytes": 10483,
-      "sha256": "ca77c3c831984dea6dab1b9df9cb870ea1cead6658c2f5c19b9767af1c34e217"
+      "bytes": 10333,
+      "sha256": "1fe7a2b4926bc79f2bd696323cf9b0651b8d681d72c3376fd652ad3479feec0b"
     },
     {
       "path": "web/offline/localization.css",

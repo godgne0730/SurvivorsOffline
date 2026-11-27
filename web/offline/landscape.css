@@ -134,3 +134,25 @@
     gap: var(--offline-hud-gap);
   }
 }
+
+#runitems .offline-deity-pending {
+  pointer-events: auto;
+  touch-action: manipulation;
+  color: #6a3398;
+  font-weight: bold;
+}
+@media (orientation: landscape) {
+  #picker.offline-deity-picker .pk-inner {
+    width: min(980px, var(--offline-centered-width));
+    max-height: calc((100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) / var(--ui));
+    overflow-y: auto;
+  }
+  #picker.offline-deity-picker #pk-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+    width: min(100%, 950px);
+    box-sizing: border-box;
+    align-items: start;
+  }
+  #picker.offline-deity-picker .pk-slot { width: 100%; min-width: 0; }
+}

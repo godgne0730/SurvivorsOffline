@@ -1,9 +1,9 @@
 {
-  "version": "81b1c42449624c5883d1",
-  "releaseVersion": "2.1.1",
-  "buildNumber": 22,
-  "fileCount": 10025,
-  "totalBytes": 298403257,
+  "version": "30ca2b7ed6f61dc76438",
+  "releaseVersion": "2.1.2",
+  "buildNumber": 23,
+  "fileCount": 10036,
+  "totalBytes": 298502206,
   "files": [
     {
       "path": ".nojekyll",
@@ -12,8 +12,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 2423,
-      "sha256": "bdc79f9ae62dc1c24e58d89fcf75f51c58a6661d40b58d2011d7a6ccbc7bc795"
+      "bytes": 2741,
+      "sha256": "6d017c7f4e2ce7022cfc3bb694a6e68ff8f57e93d8f793b1c7892b88d6b656b6"
     },
     {
       "path": "app-manifest.json",
@@ -49812,8 +49812,8 @@
     },
     {
       "path": "web/build/main-2n_YvaNQ.js",
-      "bytes": 1364614,
-      "sha256": "17c200b0ad05f787bc46ec899db60ec1f8440b9e78f34e868d7070dbdce6ff48"
+      "bytes": 1364900,
+      "sha256": "17114b03e26d0de8e1b7ff1b8e9b27bfbc52da796ed2fbe3fe844215f4be352a"
     },
     {
       "path": "web/build/main-BT36rxL4.css",
@@ -49822,8 +49822,8 @@
     },
     {
       "path": "web/build/soul_linker-BNTKE1pN.js",
-      "bytes": 2789256,
-      "sha256": "226e0d8669088aab304adaaa9764c1ff5344637e66fd8106414d7e80c8a848a2"
+      "bytes": 2792982,
+      "sha256": "04b7836d2752d383be29affc20d5a10384255a8c15436b353bdea49da15a9b3d"
     },
     {
       "path": "web/build/webworkerAll-CxShr0sz.js",
@@ -49877,8 +49877,8 @@
     },
     {
       "path": "web/offline/classic-procedural.js",
-      "bytes": 51145,
-      "sha256": "ae458aee35c2de13c05a7231e9f5ea0aee5c6007fa2a4aa0ddac3e75838c9cbc"
+      "bytes": 54449,
+      "sha256": "a51c7f9eea3be10c93f5a0e6516e0237bc239504c934dc8ee9cef2765f9b16a3"
     },
     {
       "path": "web/offline/classic-procedural/acid-bottle.png",
@@ -49941,6 +49941,11 @@
       "sha256": "4fa56a452d30ecd89b778abc1e9040909d581c0c21180e3ca563bef692bd7895"
     },
     {
+      "path": "web/offline/classic-procedural/intimidate-pc.png",
+      "bytes": 28709,
+      "sha256": "9c563ab4e5bba898dc54106063e367a1747209dac850a1e743192572f2972eff"
+    },
+    {
       "path": "web/offline/classic-procedural/kunai.png",
       "bytes": 603,
       "sha256": "02f7c961adb01f3892f33cc4154d6e8e2676b2ede79fa63e9cece7f7137266cc"
@@ -49999,6 +50004,11 @@
       "path": "web/offline/classic-procedural/shuriken.png",
       "bytes": 504,
       "sha256": "0b1b11e0b96cf4df76993c129af7ae58cb0d35765fd2685d472ef06ce5ccac92"
+    },
+    {
+      "path": "web/offline/classic-procedural/sprinkle-sand-pc.png",
+      "bytes": 24305,
+      "sha256": "de09dc706b72a606e66e47468af1a4eede5f0a9d8072c815d30bed03a2f4caf3"
     },
     {
       "path": "web/offline/classic-procedural/stone-item.png",
@@ -50077,8 +50087,13 @@
     },
     {
       "path": "web/offline/classic-skills.js",
-      "bytes": 9167,
-      "sha256": "ea2ffd13e01ac21daa59655841df4773450fc772c94f5e35fa4f0ea130501923"
+      "bytes": 14356,
+      "sha256": "79005ed3e88c7bd69be692210fa9afe259c79cf83abf29806376da9b6ce093d9"
+    },
+    {
+      "path": "web/offline/desktop-martial.js",
+      "bytes": 7958,
+      "sha256": "f3160b1e7ffe1e9b5c32a9858c8624461f24c093a6c0c84585fb4febbfd4c726"
     },
     {
       "path": "web/offline/landscape.css",
@@ -50116,9 +50131,49 @@
       "sha256": "f0eda429a7073fdde8154e94a0488032a3e11b2db518f91eaf4851b994e76b35"
     },
     {
+      "path": "web/offline/skill-glyphs/asura1.png",
+      "bytes": 1298,
+      "sha256": "e0634da03dd165129301e6a03b89ad7a8762b9770e38a3bccac1b2bd503beaf2"
+    },
+    {
+      "path": "web/offline/skill-glyphs/asura2.png",
+      "bytes": 1877,
+      "sha256": "0beb4a2fbe1c9cb3651f85773fe3ab20c509409596b9cf62d3f0c4dd6c84abbe"
+    },
+    {
+      "path": "web/offline/skill-glyphs/asura3.png",
+      "bytes": 2291,
+      "sha256": "e1f630fa3db0c2ffc1aa0a20d8d02e66ab35b7ea818df8ade29cf895fa33f9cd"
+    },
+    {
+      "path": "web/offline/skill-glyphs/asura4.png",
+      "bytes": 2203,
+      "sha256": "81a11628f8f033b78828a16eabf8747e7117161f5227cbff64902f0be4e09269"
+    },
+    {
+      "path": "web/offline/skill-glyphs/asura5.png",
+      "bytes": 1652,
+      "sha256": "bc5d7d6a38d88db1730d692cddf47f491bd6f19c50b6d83f906837da592aa6b9"
+    },
+    {
+      "path": "web/offline/skill-glyphs/asura6.png",
+      "bytes": 1899,
+      "sha256": "e031bddf282deb47f68283b953138ab065152a26c9c00df80ed593dfe4ac4136"
+    },
+    {
       "path": "web/offline/start.js",
       "bytes": 654,
       "sha256": "442ca1af2f0e29b0383d2a72e4e567ce5a9c167e5a8d400442c5d4c44e96ba48"
+    },
+    {
+      "path": "web/offline/video-kicks.js",
+      "bytes": 1740,
+      "sha256": "66104a19bb867eebcd0a47c6e20bb8b68a73c6f0e11dcd23c7de4655ff31e493"
+    },
+    {
+      "path": "web/offline/video-magic.js",
+      "bytes": 12194,
+      "sha256": "6f4242b11e7ac3d594d30471d377aa324af5b716c8f2a05b114e183752d04a7d"
     },
     {
       "path": "web/splash/endless-tower-mask.svg",

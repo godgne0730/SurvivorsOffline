@@ -23,6 +23,31 @@
   function direction(source,target){
     return Math.atan2(target.y-source.y,target.x-source.x);
   }
+  function bowWindup(game,owner) {
+    const R=renderer();
+    if(!R?.sprite||!R.texture||!R.container)return false;
+    const texture=R.texture('tex_lens1');
+    if(!texture)return false;
+    const view=R.container(),rays=[];
+    for(let i=0;i<10;i++){
+      const ray=R.sprite(texture);
+      ray.anchor.set(.5,1);ray.blendMode='add';
+      ray.rotation=i*Math.PI/5+.12*Math.sin(i*7);
+      view.addChild(ray);rays.push(ray);
+    }
+    let elapsed=0;
+    const effect={view,anchor:owner,upright:true,lift:38,pcVisible:true,update(ms){
+      elapsed+=ms;if(owner.dead||elapsed>=440)return true;
+      const phase=elapsed/440,light=Math.sin(Math.PI*Math.min(1,phase*1.13));
+      rays.forEach((ray,i)=>{
+        const length=(i%2?2.1:2.8)*R.unit;
+        ray.height=length*(.22+.78*light);ray.width=R.unit*(.06+.14*light);
+        ray.alpha=light*(i%2?.76:.96);
+      });
+      return false;
+    }};
+    effect.update(0);game.addFx(effect);return true;
+  }
   function shotAngle(game,from,to,lift) {
     if(!game.screenPos)return direction(from,to);
     const a=game.screenPos(from.x,from.y,lift),b=game.screenPos(to.x,to.y,lift);
@@ -38,6 +63,8 @@
     const R=renderer(),sheet=row.sheet,frames=row.images??[];
     const shaft=sheet==='fx_arrow'||sheet==='fx_spear';
     const image=sheet?R.sheet(sheet,shaft?2:row.direction?(source.sprite?.dir??0):0):R.sprite(lookup(frames[0]));
+    // Gun hit sprites have a complete ACT already timed by the desktop client.
+    if(row.skill && Number.isFinite(image.duration) && image.duration>0 && !(game.runItems?.deityLevel?.(row.skill)>0))duration=image.duration;
     const view=R.container();view.addChild(image);
     const fixed=point(target,row.attachedEntity),from=point(source,false);
     const anchor={x:fixed.x,y:fixed.y},unit=R.unit;
@@ -107,7 +134,35 @@
         rise:value(row.riseDistance)*unit,fadeOut:row.fadeOut,speed:row.animationSpeed}};
     game.cylinder(anchor.x+dx,anchor.y+dy,opts);
   }
+  // Archived desktop songs cover nine cells and their symbols face the camera.
+  function performance(game,row,duration){
+    const R=renderer(),owner=game.player,unit=R.unit,view=R.container(),icons=[];
+    const texture=lookup(row.images[0]),beam=row.song==='dissonance'||row.song==='siegfried',lightning=row.song==='lokis_veil';
+    for(let y=-4;y<=4;y++)for(let x=-4;x<=4;x++){
+      const image=R.sprite(texture),phase=Math.random()*Math.PI*2;
+      image.anchor.set(.5,beam?.86:.5);image.width=unit*(beam?.95:lightning?1.3:.55);
+      image.height=unit*(beam?2:lightning?1.3:.63);image.blendMode='add';image.tint=row.tint;
+      view.addChild(image);icons.push({x,y,image,phase});
+    }
+    let elapsed=0;
+    const effect={view,anchor:owner,upright:true,update(ms){
+      elapsed+=ms;if(owner.dead||elapsed>=duration)return true;
+      const cx=owner.x,cy=owner.y,center=game.screenPos(cx,cy,0),scale=game.pixelScale(cx,cy);
+      if(!(scale>0))return false;
+      const u=game.screenPos(cx+unit,cy,0),v=game.screenPos(cx,cy+unit,0);
+      const xx=(u.x-center.x)/scale,xy=(u.y-center.y)/scale,yx=(v.x-center.x)/scale,yy=(v.y-center.y)/scale;
+      for(const {x,y,image,phase} of icons){
+        const wave=Math.sin(elapsed/(lightning?110:230)+phase);
+        image.position.set(x*xx+y*yx,x*xy+y*yy-(beam?0:unit*(.2+.16*wave)));
+        image.alpha=(beam?.24:.76)+(beam?.12:.2)*wave;
+        if(lightning)image.rotation=phase+Math.floor(elapsed/140)*Math.PI/2;
+      }
+      return false;
+    }};
+    effect.update(0);game.addFx(effect);
+  }
   function tile(game,row,target,duration){
+    if(row.song && game.screenPos && game.pixelScale && !(game.runItems?.deityLevel?.(row.song)>0))return performance(game,row,duration);
     const R=renderer(),unit=R.unit;
     const center=point(target,false),tiles=R.graphic(),view=R.container(),texture=lookup(row.images[0]);
     // The PC renderer repeats one coloured cell and its hovering symbol across the song area.
@@ -252,7 +307,7 @@
     };
     if(pending.length)Promise.all(pending).then(go).catch(error=>console.warn('桌機技能圖層載入失敗',error));else go();
   }
-  host.ROClassicProcedural={
+  host.ROClassicProcedural={bowWindup,
     supports:id=>Object.hasOwn(rows,id),
     isProjectile:id=>rows[id]?.some(row=>row.toSrc)??false,
     arrowFlight,
@@ -285,6 +340,7 @@
     play(game,id,target,source=game.player){
       if(!this.supports(id)||!renderer()||!alive(game)||!Number.isFinite(target?.x)||!Number.isFinite(target?.y))return false;
       source=source&&Number.isFinite(source.x)&&Number.isFinite(source.y)?source:target;
+      if(Number(id)===226&&game.runItems?.deityLevel('grand_cross')===0&&host.ROMartialPlayback?.grandCross(game,target))return true;
       for(const row of rows[id])dispatch(game,row,target,source);
       return true;
     },
@@ -334,20 +390,20 @@
 "613": [{"type":"3D","alphaMax":1,"angle":180,"attachedEntity":true,"duration":200,"fadeIn":true,"fadeOut":true,"toSrc":true,"rotateToTarget":true,"rotateWithCamera":true,"rotate":true,"nbOfRotation":1,"size":30,"zOffset":1,"zIndex":1,"images":["shuriken.png"]}],
 "614": [{"type":"3D","alphaMax":1,"angle":180,"attachedEntity":true,"duration":200,"fadeIn":true,"fadeOut":true,"toSrc":true,"rotateToTarget":true,"rotateWithCamera":true,"rotate":true,"nbOfRotation":1,"size":30,"zOffset":1,"zIndex":1,"images":["kunai.png"]}],
 "615": [{"type":"3D","alphaMax":1,"angle":180,"attachedEntity":true,"duration":200,"fadeIn":true,"fadeOut":true,"toSrc":true,"rotateToTarget":true,"rotateWithCamera":true,"rotate":true,"nbOfRotation":1,"size":30,"zOffset":1,"zIndex":1,"images":["huuma.png"]}],
-"637": [{"type":"SPR","attachedEntity":true,"sheet":"fx_desperado"}],
-"643": [{"type":"SPR","attachedEntity":true,"sheet":"fx_rapidshower"}],
-"645": [{"type":"SPR","attachedEntity":true,"direction":true,"sheet":"fx_spread"}],
-"647": [{"type":"SPR","attachedEntity":true,"sheet":"fx_tracking"}],
-"648": [{"type":"SPR","attachedEntity":true,"sheet":"fx_tripleaction"}],
+"637": [{"type":"SPR","attachedEntity":true,"sheet":"fx_desperado","skill":"desperado"}],
+"643": [{"type":"SPR","attachedEntity":true,"sheet":"fx_rapidshower","skill":"rapid_shower"}],
+"645": [{"type":"SPR","attachedEntity":true,"direction":true,"sheet":"fx_spread","skill":"spread_attack"}],
+"647": [{"type":"SPR","attachedEntity":true,"sheet":"fx_tracking","skill":"tracking"}],
+"648": [{"type":"SPR","attachedEntity":true,"sheet":"fx_tripleaction","skill":"triple_action"}],
 "ef_arrow_projectile": [{"type":"3D","alphaMax":1,"angle":180,"attachedEntity":true,"duration":null,"fadeIn":true,"fadeOut":true,"toSrc":true,"rotateToTarget":true,"rotateWithCamera":true,"size":100,"zOffset":1,"zIndex":1,"sheet":"fx_arrow"}],
 "ef_spear_projectile": [{"type":"3D","alphaMax":1,"angle":180,"attachedEntity":true,"duration":140,"fadeIn":true,"fadeOut":true,"toSrc":true,"rotateToTarget":true,"rotateWithCamera":true,"size":100,"zOffset":1,"zIndex":1,"sheet":"fx_spear"}],
 "ef_shield_projectile": [{"type":"3D","alphaMax":1,"angle":180,"attachedEntity":true,"duration":140,"fadeIn":true,"fadeOut":true,"toSrc":true,"rotateToTarget":true,"rotateWithCamera":true,"rotate":true,"nbOfRotation":1,"size":50,"zOffset":1,"zIndex":1,"images":["shield_boomerang.png"]}],
 "315": [{"alphaMax":0.4,"animation":0,"attachedEntity":true,"blendMode":2,"blue":0.5,"bottomSize":0.6,"duration":50000,"fade":true,"green":0.1,"height":7,"red":0.5,"rotate":true,"topSize":0.6,"type":"CYLINDER","images":["@tex_alpha_down"]},{"alphaMax":0.4,"animation":0,"attachedEntity":true,"blendMode":2,"blue":0.5,"bottomSize":0.65,"duration":50000,"delayOffset":50,"fade":true,"green":0.1,"height":6,"red":0.5,"rotate":true,"topSize":0.65,"type":"CYLINDER","images":["@tex_alpha_down"]},{"alphaMax":0.4,"animation":0,"attachedEntity":true,"blendMode":2,"blue":0.5,"bottomSize":0.7,"duration":50000,"delayOffset":100,"fade":true,"green":0.1,"height":7,"red":0.5,"rotate":true,"topSize":0.7,"type":"CYLINDER","images":["@tex_alpha_down"]}],
-"277_ground": [{"type":"tile","color":16777215,"images":["lens_w.png"],"duration":3000}],
-"278_ground": [{"type":"tile","color":15572735,"images":["zz.png"],"duration":3000}],
-"281_ground": [{"type":"tile","color":15558140,"images":["melody_b.png"],"duration":3000}],
-"283_ground": [{"type":"tile","color":14444028,"images":["safeline.png"],"duration":3000}],
-"285_ground": [{"type":"tile","color":4733951,"images":["lens_b.png"],"duration":3000}],
+"277_ground": [{"type":"tile","song":"dissonance","tint":16759515,"color":16777215,"images":["lens_w.png"],"duration":3000}],
+"278_ground": [{"type":"tile","song":"lullaby","tint":16755192,"color":15572735,"images":["zz.png"],"duration":3000}],
+"281_ground": [{"type":"tile","song":"drum_battlefield","tint":16750812,"color":15558140,"images":["melody_b.png"],"duration":3000}],
+"283_ground": [{"type":"tile","song":"lokis_veil","tint":15180287,"color":14444028,"images":["safeline.png"],"duration":3000}],
+"285_ground": [{"type":"tile","song":"siegfried","tint":6711039,"color":4733951,"images":["lens_b.png"],"duration":3000}],
 "ef_trap_04": [{"type":"RSM","images":["claymore-model.png"],"xyz":[4.65431,8e-05,-3.58761,4.65431,9e-05,3.59106,4.65431,3.51499,3.59106,4.65431,3.51499,3.59106,4.65431,3.51499,-3.58761,4.65431,8e-05,-3.58761,-4.63971,0.0,-3.58761,-4.65431,3.5148,-3.59999,-4.65431,3.5148,3.59999,-4.65431,3.5148,3.59999,-4.63971,0.0,3.59106,-4.63971,0.0,-3.58761,4.65431,8e-05,-3.58761,4.65431,3.51499,-3.58761,-4.65431,3.5148,-3.59999,-4.65431,3.5148,-3.59999,-4.63971,0.0,-3.58761,4.65431,8e-05,-3.58761,4.65431,3.51499,-3.58761,4.65431,3.51499,3.59106,-4.65431,3.5148,3.59999,-4.65431,3.5148,3.59999,-4.65431,3.5148,-3.59999,4.65431,3.51499,-3.58761,4.65431,3.51499,3.59106,4.65431,9e-05,3.59106,-4.63971,0.0,3.59106,-4.63971,0.0,3.59106,-4.65431,3.5148,3.59999,4.65431,3.51499,3.59106],"uv":[0.00429,0.81739,0.00438,0.20398,0.12634,0.20125,0.12634,0.20125,0.12634,0.81881,0.00429,0.81739,0.9863,0.81739,0.86677,0.81881,0.86677,0.20125,0.86677,0.20125,0.98668,0.20362,0.9863,0.81739,0.12566,0.94514,0.12634,0.81881,0.86677,0.81881,0.86677,0.81881,0.86735,0.94514,0.12566,0.94514,0.12634,0.81881,0.12634,0.20125,0.86677,0.20125,0.86677,0.20125,0.86677,0.81881,0.12634,0.81881,0.12634,0.20125,0.12576,0.0792,0.86774,0.07884,0.86774,0.07884,0.86677,0.20125,0.12634,0.20125],"duration":12000}],
 "ef_trap_03_4": [{"type":"RSM","images":["sandman-model.png"],"xyz":[4.98519,0.0,5.06119,-3.30945,1.93028,3.16586,3.09031,1.93028,3.08934,4.98519,0.0,5.06119,-4.98519,0.0,5.04559,-3.30945,1.93028,3.16586,-4.98519,0.0,-4.9797,3.09023,1.98577,-3.13987,-3.38175,1.93028,-3.03701,-4.98519,0.0,-4.9797,4.97224,0.0,-5.00214,3.09023,1.98577,-3.13987,3.09023,1.98577,-3.13987,3.09031,1.93028,3.08934,-3.30945,1.93028,3.16586,3.09023,1.98577,-3.13987,-3.30945,1.93028,3.16586,-3.38175,1.93028,-3.03701,4.97203,0.0,-5.06119,3.09031,1.93028,3.08934,3.09023,1.98577,-3.13987,4.97203,0.0,-5.06119,4.98519,0.0,5.06119,3.09031,1.93028,3.08934,-4.98519,0.0,5.04559,-3.38175,1.93028,-3.03701,-3.30945,1.93028,3.16586,-4.98519,0.0,5.04559,-4.98519,0.0,-4.9797,-3.38175,1.93028,-3.03701],"uv":[0.74485,0.01029,0.33335,0.15485,0.67258,0.15485,0.74485,0.01029,0.25515,0.01029,0.33335,0.15485,0.25515,0.98971,0.67258,0.84515,0.33335,0.84515,0.25515,0.98971,0.74485,0.98971,0.67258,0.84515,0.69409,0.58787,0.69409,0.15948,0.31363,0.15481,0.69409,0.58787,0.31363,0.15481,0.30934,0.5816,0.25515,0.98971,0.67258,0.84515,0.33335,0.84515,0.25515,0.98971,0.74485,0.98971,0.67258,0.84515,0.25515,0.98971,0.67258,0.84515,0.33335,0.84515,0.25515,0.98971,0.74485,0.98971,0.67258,0.84515],"duration":12000}],
 "239": [{"type":"CYLINDER","images":["ring_red.png"],"totalCircleSides":20,"topSize":3,"bottomSize":1,"height":2,"duration":10000,"fade":false,"propertyGround":true}],

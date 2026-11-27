@@ -1,3 +1,6 @@
+import './desktop-martial.js';
+import {bindMagicOrbit,magicConfig,magicMask,recordedMagicField,warmMagic,recordedMagicBegin,recordedMagicCast,recordedMagicHit} from './video-magic.js';
+import {prepareKick, topple} from './video-kicks.js';
 import {skills, layers} from './classic-skill-data.js';
 
 // These skills own their visuals, including actors that persist beyond a cast.
@@ -8,6 +11,68 @@ const list = value => value == null ? [] : Array.isArray(value) ? value : [value
 const supported = id => layers[id]?.length || globalThis.ROClassicProcedural?.supports(id);
 const canPlay = ids => list(ids).some(supported);
 const warmed = new WeakSet();
+
+// These releases use the body ACT's skill gesture even when a weapon is equipped.
+const recordedBowWindups=new Set(['double_strafe','arrow_repel','beast_strafing','phantasmic_arrow']);
+const spellGestures = new Set([
+  'concentration','provoke','crazy_uproar','auto_guard','grand_cross','spear_quicken',
+  'enchant_poison','venom_dust','divest_weapon','steal_coin','weapon_perfection',
+  'chemical_protection','lightning_strike','flaming_petals'
+]);
+function unenhanced(game, weapon) {
+  return Object.hasOwn(skills,weapon.id) && !(game.runItems?.deityLevel?.(weapon.id)>0);
+}
+function holdChant(game,weapon,state,duration) {
+  const actor=game.player;
+  if(!unenhanced(game,weapon)||!actor?.sprite?.sheets?.body||!actor.pose||actor.dead||actor.sitting)return false;
+  actor.pose('cast');
+  actor.sprite.classicClip={start:0,count:1,chant:state};
+  actor.castLock=duration;
+  state.desktopSkill=weapon.id;
+  actor.pcChant=state;
+  return true;
+}
+// Colors at cast start in the archived desktop clips. Ground spells can use a different
+// ring from their damage element (Meteor Storm is gold and Earth Spike is pale).
+const chantRings={
+  firebolt:['tex_ring_white',[1,.68,.53]],
+  coldbolt:['tex_ring_blue',[.65,.75,1]],
+  lightning:['tex_ring_white',[.85,1,.9]],
+  earth_spike:['tex_ring_white',[.9,1,.92]],
+  meteor_storm:['tex_ring_yellow',[1,1,.85]]
+};
+function chantAura(game,state,duration) {
+  const style=chantRings[state.desktopSkill],api=globalThis.ROClassicProcRenderer;
+  const texture=style&&api?.texture(style[0]);
+  if(!texture||!game.cylinder)return false;
+  // Narrow inner light, foot ring and outward flare. The original ring texture fades
+  // vertically. Keep its base attached until the cast ends or is interrupted.
+  const actor=game.player,unit=api.unit;
+  for(const [bottom,top,height,alpha,animation] of [[1,1,8,.24,1],[1,1.3,1.4,.65,1],[1,3.2,2.3,.72,2]]){
+    game.cylinder(actor.x,actor.y,{texture,bottom:bottom*unit,top:top*unit,height:height*unit,
+      duration,alpha,animation,rotate:true,fade:true,color:style[1],follow:()=>actor,
+      castState:state});
+  }
+  return true;
+}
+function endChant(actor,state) {
+  if(actor.pcChant!==state)return;
+  actor.pcChant=null;
+  if(actor.sprite.classicClip?.chant===state){
+    actor.castLock=0;
+    actor.sprite.classicClip=null;
+  }
+}
+function releaseGesture(game,weapon) {
+  const actor=game.player;
+  if(!unenhanced(game,weapon)||!actor?.pose||actor.dead||actor.sitting)return false;
+  if(recordedBowWindups.has(weapon.id))actor.pose('ready');
+  else if(spellGestures.has(weapon.id))actor.pose('cast');
+  else if(weapon.id==='graffiti')actor.pose('pickup');
+  else if(weapon.id==='call_homunculus'||weapon.id==='detecting')actor.pose('idle');
+  else return false;
+  return true;
+}
 
 function active(game,id) {
   return Boolean(skills[id] && !independent.has(id) && game.fxRoom && !(id==='thunderstorm'&&game.stats?.firestorm));
@@ -31,6 +96,7 @@ function emit(game,ids,target,source) {
       played=true;
       continue;
     }
+    if (globalThis.ROMartialPlayback?.archivedAxe(game,id,target,source)) { played=true; continue; }
     if (!supported(id)) continue;
     if (!game.fxRoom()) return true;
     scope(game,null,()=>{
@@ -58,6 +124,8 @@ function emit(game,ids,target,source) {
 function warm(game,weapon) {
   if (warmed.has(weapon) || !active(game,weapon.id)) return;
   warmed.add(weapon);
+  warmMagic(game,weapon.id);
+  globalThis.ROMartialPlayback?.warmRecording(game,weapon.id);
   for(const field of Object.values(skills[weapon.id]))
     for(const id of list(field))
       for(const layer of layers[id]??[])
@@ -67,6 +135,12 @@ function meteor(game, weapon, x, y) {
   return active(game,weapon.id) && weapon.id==='meteor_storm' &&
     emit(game,skills[weapon.id].effectId,{x,y},game.player);
 }
+function bowFlash(game) {
+  if(!game.fxRoom?.()||!game.player)return;
+  const actor=game.player;
+  if(!globalThis.ROClassicProcedural?.bowWindup(game,actor))emit(game,16,actor,actor);
+  game.schedule(.38,()=>{if(!actor.dead&&!actor.sitting)actor.attack();});
+}
 function status(game,id,enemy) {
   return id==='provoke' && active(game,id) && emit(game,skills[id].successEffectId,enemy,game.player);
 }
@@ -74,6 +148,11 @@ const boltStages = {firebolt:'damageEffectIdOnTarget',coldbolt:'damageEffectIdOn
 function launchSpell(game,weapon,enemy,index,count) {
   const id=weapon.id,field=boltStages[id];
   if(!field || !active(game,id))return false;
+  if(id==='lightning'&&unenhanced(game,weapon)&&game.pcSkillFrame){
+    const targets=game.pcSkillFrame.lightningTargets??=new WeakSet();
+    if(targets.has(enemy))return true;
+    targets.add(enemy);
+  }
   const caster=field==='damageEffectIdOnCaster', player=game.player;
   const played=id==='soul_strike'?soul(game,player,enemy,index,count):
     emit(game,skills[id][field],caster?player:enemy,caster?enemy:player);
@@ -122,6 +201,11 @@ function soul(game, source, enemy, index, count) {
 }
 function cast(game,weapon,frame,aim) {
   const s=skills[weapon.id],actor=game.player,target=point(aim,frame.hitTarget??actor),spot=onSelf.has(weapon.id)?actor:target;
+  if(aim?.kind==='ground')frame.ground={x:aim.x,y:aim.y};
+  if(recordedMagicCast(game,weapon,actor,target,emit,frame))return;
+  if(weapon.id==='flaming_petals'&&unenhanced(game,weapon))return;
+  if(unenhanced(game,weapon) && ['bash','envenom','mammonite'].includes(weapon.id))emit(game,16,actor,spot);
+  if(weapon.id==='acid_terror' && unenhanced(game,weapon))emit(game,12,actor,spot);
   emit(game,s.effectIdOnCaster,actor,spot);
   emit(game,s.successEffectIdOnCaster,actor,spot);
   const victims=aim?.kind==='enemy'&&!onSelf.has(weapon.id)?new Set(aim.all?.length?aim.all:[spot]):[spot];
@@ -140,15 +224,21 @@ function cast(game,weapon,frame,aim) {
   }
 }
 function bind(weapon) {
+  bindMagicOrbit(weapon);
   if(!skills[weapon.id]||independent.has(weapon.id)) return weapon;
+  prepareKick(weapon);
   const fire=weapon.fire,s=skills[weapon.id];
   const uiStages=attackStages.filter(k=>k!=='releaseEffectId');
   weapon.fire=function(game,aim) {
     if(!active(game,this.id))return fire.call(this,game,aim);
     warm(game,this);
     // A projectile or zone may also carry collision/damage work. Keep its update alive.
-    const frame={id:this.id,first:new WeakSet(),mask:uiStages.some(k=>canPlay(s[k]))};
-    const fired=scope(game,frame,()=>fire.call(this,game,aim));
+    const frame={id:this.id,first:new WeakSet(),mask:(unenhanced(game,this)&&magicMask(this.id))||uiStages.some(k=>canPlay(s[k]))};
+    const original=this.cfg,changes=original&&magicConfig(this.id,game);
+    let fired;
+    if(changes)this.cfg={...original,...changes};
+    try {fired=scope(game,frame,()=>fire.call(this,game,aim));}
+    finally {if(changes)this.cfg=original;}
     if(fired) {
       this.pcLastFrame=frame;
       cast(game,this,frame,this.shot??aim);
@@ -161,10 +251,18 @@ function hit(game,enemy,meta,amount,frame) {
   const id=meta.src;
   if(meta.part || !active(game,id))return false;
   const s=skills[id],player=game.player;
+  // A brief target spark follows living arrows. The large radial flash belongs at the bow.
+  if(amount>0 && ['double_strafe','arrow_shower','arrow_repel','phantasmic_arrow'].includes(id) && !(game.runItems?.deityLevel?.(id)>0))
+    return emit(game,0,enemy,player);
   const scopeFrame=frame?.id===id?frame:game.weapons?.find(w=>w.id===id)?.pcLastFrame;
   let played=false;
   if(amount>0) {
-    if(!frame?.launched || boltStages[id]!=='damageEffectIdOnCaster')emit(game,s.damageEffectIdOnCaster,player,enemy);
+    if(id==='roundhouse'&&!(game.runItems?.deityLevel?.(id)>0))topple(game,enemy);
+    if(recordedMagicHit(game,id,enemy,scopeFrame,emit))return true;
+    if(globalThis.ROMartialPlayback?.recordedContact(game,id,enemy,emit))return true;
+    if(id==='flaming_petals'&&!(game.runItems?.deityLevel?.(id)>0))return emit(game,s.effectId,enemy,player);
+    const bowAlreadyFlashed=(id==='double_strafe'||id==='arrow_repel') && !(game.runItems?.deityLevel?.(id)>0);
+    if(!bowAlreadyFlashed && (!frame?.launched || boltStages[id]!=='damageEffectIdOnCaster'))emit(game,s.damageEffectIdOnCaster,player,enemy);
     // Double Strafe releases both arrows from the bow; damage only supplies their impact flashes.
     if(id!=='double_strafe' && (!frame?.launched || boltStages[id]!=='damageEffectIdOnTarget'))
       played=emit(game,s.damageEffectIdOnTarget,enemy,player);
@@ -180,8 +278,9 @@ function begin(game,weapon,aim) {
   if(!active(game,weapon.id))return false;
   warm(game,weapon);
   const s=skills[weapon.id];
+  recordedMagicBegin(game,weapon);
   emit(game,s.beginCastEffectId,game.player,point(aim,game.player));
   return s;
 }
 const projectileEffect=id=>skills[id]?.beforeHitEffectId;
-globalThis.ROClassicSkills={projectileEffect,bind, warm, begin, hit, scope, emit, meteor, status, launchSpell};
+globalThis.ROClassicSkills={recordedMagicField,unenhanced,holdChant,chantAura,endChant,releaseGesture,projectileEffect,bowFlash,bind, warm, begin, hit, scope, emit, meteor, status, launchSpell};

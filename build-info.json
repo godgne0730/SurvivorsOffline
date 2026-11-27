@@ -1,7 +1,7 @@
 {
-  "version": "4a152480764e3819feae",
+  "version": "30057d5c2d3c017d1842",
   "fileCount": 9609,
-  "totalBytes": 288518333,
+  "totalBytes": 288521741,
   "files": [
     {
       "path": ".nojekyll",
@@ -15,8 +15,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 2201,
-      "sha256": "579d82d166a5c7bc8c61dc8f15894a8207f8ab1d33422405963028f86eac9ed9"
+      "bytes": 2189,
+      "sha256": "40521075e9a86dfdab2c25fd0710942522148531a0f7ad8d155b2278afb40d7a"
     },
     {
       "path": "pwa.css",
@@ -47935,8 +47935,8 @@
     },
     {
       "path": "web/build/main-2n_YvaNQ.js",
-      "bytes": 1352134,
-      "sha256": "910fc5d876e8b2736fa7fc63910a7677b1b7864461d1ff5231d82d869f26173e"
+      "bytes": 1354622,
+      "sha256": "118884bbea3fe401c036fd6005c3a11493ccb5e3c9b8776391b863963d281fdb"
     },
     {
       "path": "web/build/main-BT36rxL4.css",
@@ -47945,8 +47945,8 @@
     },
     {
       "path": "web/build/soul_linker-BNTKE1pN.js",
-      "bytes": 2756368,
-      "sha256": "71a4fcd61340098beed7435aab0a3000f2f63ff951be2c7b0c4b3ffaea2fcd1c"
+      "bytes": 2757312,
+      "sha256": "0417c750e64824c66f56c02ada0b061b21d3c5e4bc32af03f76b358cfcf3c54d"
     },
     {
       "path": "web/build/webworkerAll-CxShr0sz.js",
@@ -47960,8 +47960,8 @@
     },
     {
       "path": "web/index.html",
-      "bytes": 39188,
-      "sha256": "ead78e8a1b0aee01914e60d16cebf6037cd44abff415feec3fe9e2aae1e77477"
+      "bytes": 39176,
+      "sha256": "379cacceae992951d8f5359238bf5caa608a94d6ccf42f2bedd7df12d8bf9b97"
     },
     {
       "path": "web/offline/branding.css",

@@ -267,7 +267,18 @@
     "hatii": "sprites/hatii.json",
     "antonio": "sprites/antonio.json",
     "npc_santa": "sprites/npc_santa.json",
-    "falcon": "sprites/falcon.json"
+    "falcon": "sprites/falcon.json",
+    "assulter": "sprites/assulter.json",
+    "dark_illusion": "sprites/dark_illusion.json",
+    "dark_lord": "sprites/dark_lord.json",
+    "evil_druid": "sprites/evil_druid.json",
+    "ghoul": "sprites/ghoul.json",
+    "heater": "sprites/heater.json",
+    "mimic": "sprites/mimic.json",
+    "permeter": "sprites/permeter.json",
+    "solider": "sprites/solider.json",
+    "turtle_general": "sprites/turtle_general.json",
+    "wraith": "sprites/wraith.json"
   },
   "icons": {
     "job_knight": "icons/job_knight.png",
@@ -2228,7 +2239,37 @@
     "antonio_die": "sounds/antonio_die.wav",
     "pc_wizard_fire_ivy": "sounds/pc_wizard_fire_ivy.wav",
     "hunter_blitzbeat": "sounds/hunter_blitzbeat.wav",
-    "hunter_detecting": "sounds/hunter_detecting.wav"
+    "hunter_detecting": "sounds/hunter_detecting.wav",
+    "assulter_move": "sounds/assulter_move.wav",
+    "assulter_attack": "sounds/assulter_attack.wav",
+    "assulter_die": "sounds/assulter_die.wav",
+    "dark_lord_stand": "sounds/dark_lord_stand.wav",
+    "dark_lord_attack": "sounds/dark_lord_attack.wav",
+    "dark_lord_damage": "sounds/dark_lord_damage.wav",
+    "dark_lord_die": "sounds/dark_lord_die.wav",
+    "evil_druid_attack": "sounds/evil_druid_attack.wav",
+    "evil_druid_damage": "sounds/evil_druid_damage.wav",
+    "evil_druid_die2": "sounds/evil_druid_die2.wav",
+    "evil_druid_die": "sounds/evil_druid_die.wav",
+    "heater_stand": "sounds/heater_stand.wav",
+    "heater_move2": "sounds/heater_move2.wav",
+    "heater_attack": "sounds/heater_attack.wav",
+    "permeter_die": "sounds/permeter_die.wav",
+    "mimic_move": "sounds/mimic_move.wav",
+    "mimic_attack": "sounds/mimic_attack.wav",
+    "monster_metal": "sounds/monster_metal.wav",
+    "mimic_die2": "sounds/mimic_die2.wav",
+    "mimic_die1": "sounds/mimic_die1.wav",
+    "turtle_move1": "sounds/turtle_move1.wav",
+    "turtle_move2": "sounds/turtle_move2.wav",
+    "permeter_attack": "sounds/permeter_attack.wav",
+    "monster_wood": "sounds/monster_wood.wav",
+    "turtle_general_move": "sounds/turtle_general_move.wav",
+    "turtle_general_attack": "sounds/turtle_general_attack.wav",
+    "turtle_general_damage": "sounds/turtle_general_damage.wav",
+    "turtle_general_die": "sounds/turtle_general_die.wav",
+    "wraith_attack": "sounds/wraith_attack.wav",
+    "wraith_die": "sounds/wraith_die.wav"
   },
   "bgm": {
     "field": "bgm/field.mp3",
@@ -2246,7 +2287,9 @@
     "maze": "bgm/maze.mp3",
     "orc_village": "bgm/orc_village.mp3",
     "pyramid": "bgm/pyramid.mp3",
-    "xmas": "bgm/xmas.mp3"
+    "xmas": "bgm/xmas.mp3",
+    "turtle_island": "bgm/turtle_island.mp3",
+    "glast_heim": "bgm/glast_heim.mp3"
   },
   "maps": {
     "prt_fild08": "maps/prt_fild08/map.json",
@@ -2264,7 +2307,9 @@
     "gef_fild10": "maps/gef_fild10/map.json",
     "moc_pryd04": "maps/moc_pryd04/map.json",
     "prt_maze02": "maps/prt_maze02/map.json",
-    "xmas": "maps/xmas/map.json"
+    "xmas": "maps/xmas/map.json",
+    "tur_dun04": "maps/tur_dun04/map.json",
+    "gl_chyard": "maps/gl_chyard/map.json"
   },
   "characters": {
     "bodies": {
@@ -13699,6 +13744,105 @@
         "Requirement:",
         "All classes"
       ]
+    },
+    "1141": {
+      "name": "Immaterial Sword",
+      "slots": 0,
+      "icon": "items/1141.png",
+      "art": "items/1141_art.png",
+      "description": [
+        "攻擊力 140。"
+      ]
+    },
+    "1162": {
+      "name": "Broad Sword",
+      "slots": 2,
+      "icon": "items/1162.png",
+      "art": "items/1162_art.png",
+      "description": [
+        "攻擊力 140。"
+      ]
+    },
+    "1164": {
+      "name": "Muramasa",
+      "slots": 0,
+      "icon": "items/1164.png",
+      "art": "items/1164_art.png",
+      "description": [
+        "攻擊力 155。"
+      ]
+    },
+    "1226": {
+      "name": "Damascus",
+      "slots": 2,
+      "icon": "items/1226.png",
+      "art": "items/1226_art.png",
+      "description": [
+        "攻擊力 118。"
+      ]
+    },
+    "1237": {
+      "name": "Grimtooth",
+      "slots": 0,
+      "icon": "items/1237.png",
+      "art": "items/1237_art.png",
+      "description": [
+        "攻擊力 180。"
+      ]
+    },
+    "2004": {
+      "name": "Kronos",
+      "slots": 0,
+      "icon": "items/2004.png",
+      "art": "items/2004_art.png",
+      "description": [
+        "攻擊力 30。"
+      ]
+    },
+    "1306": {
+      "name": "War Axe",
+      "slots": 1,
+      "icon": "items/1306.png",
+      "art": "items/1306_art.png",
+      "description": [
+        "攻擊力 140。"
+      ]
+    },
+    "1417": {
+      "name": "Pole Axe",
+      "slots": 1,
+      "icon": "items/1417.png",
+      "art": "items/1417_art.png",
+      "description": [
+        "攻擊力 160。"
+      ]
+    },
+    "1529": {
+      "name": "Iron Driver",
+      "slots": 0,
+      "icon": "items/1529.png",
+      "art": "items/1529_art.png",
+      "description": [
+        "攻擊力 155。"
+      ]
+    },
+    "2334": {
+      "name": "Mage Coat",
+      "slots": 0,
+      "icon": "items/2334.png",
+      "art": "items/2334_art.png",
+      "description": [
+        "防禦力 5。"
+      ]
+    },
+    "5162": {
+      "name": "Bone Helm",
+      "slots": 1,
+      "icon": "items/5162.png",
+      "art": "items/5162_art.png",
+      "description": [
+        "防禦力 7。"
+      ]
     }
   },
   "cards": {
@@ -15241,6 +15385,83 @@
       "description": [
         "Type: Card",
         "Weight: 1"
+      ]
+    },
+    "4311": {
+      "name": "Permeter Card",
+      "image": "cards/4311.png",
+      "description": [
+        "受到傷害減少 5%。"
+      ]
+    },
+    "4220": {
+      "name": "Solider Card",
+      "image": "cards/4220.png",
+      "description": [
+        "護甲 +2，受到傷害減少 2%。"
+      ]
+    },
+    "4246": {
+      "name": "Assaulter Card",
+      "image": "cards/4246.png",
+      "description": [
+        "暴擊傷害 +10%，暴擊率 +4%。"
+      ]
+    },
+    "4331": {
+      "name": "Heater Card",
+      "image": "cards/4331.png",
+      "description": [
+        "暴擊率與迴避率各增加 3%。"
+      ]
+    },
+    "4305": {
+      "name": "Turtle General Card",
+      "image": "cards/4305.png",
+      "description": [
+        "造成的傷害增加 20%。"
+      ]
+    },
+    "4110": {
+      "name": "Ghoul Card",
+      "image": "cards/4110.png",
+      "description": [
+        "護甲 +1，受到傷害減少 3%。"
+      ]
+    },
+    "4190": {
+      "name": "Wraith Card",
+      "image": "cards/4190.png",
+      "description": [
+        "肉塊回復量增加 15%，每秒回復 0.3 HP。"
+      ]
+    },
+    "4141": {
+      "name": "Evil Druid Card",
+      "image": "cards/4141.png",
+      "description": [
+        "INT +1，護甲 +1，對首領與不死魔物傷害增加 5%。"
+      ]
+    },
+    "4205": {
+      "name": "Mimic Card",
+      "image": "cards/4205.png",
+      "description": [
+        "發現率與 Zeny 收益各增加 8%。"
+      ]
+    },
+    "4169": {
+      "name": "Dark Illusion Card",
+      "image": "cards/4169.png",
+      "description": [
+        "詠唱加速 10%，最大 HP 減少 10%。"
+      ]
+    },
+    "4168": {
+      "name": "Dark Lord Card",
+      "image": "cards/4168.png",
+      "description": [
+        "重複施放機率增加 12%，技能範圍增加 12%。"
       ]
     }
   },

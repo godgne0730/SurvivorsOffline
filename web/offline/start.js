@@ -2,6 +2,8 @@
 if (window.__RO_OFFLINE_BOOT_ERROR__) {
   document.body.replaceChildren(document.createTextNode(window.__RO_OFFLINE_BOOT_ERROR__));
 } else {
+  await import('./classic-procedural.js');
+  await import('./classic-skills.js');
   await import('../build/main-2n_YvaNQ.js');
 }
 

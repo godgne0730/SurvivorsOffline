@@ -80,5 +80,21 @@
   "Se consigue al superar el piso {n} de la Endless Tower.": "通過無限塔第 {n} 層即可獲得。",
   "Endless Tower": "無限塔",
   "La Endless Tower necesita una cuenta registrada: el servidor comprueba cada partida para las puntuaciones. Crea una o entra en la tuya desde la portada.": "無限塔需要註冊帳號：伺服器會檢查每一局以計算排行。請在標題畫面建立帳號或登入。",
-  "Cada lobby tiene su plaza, sus canales y su chat. Tus amigos y la Endless Tower son los mismos en todos.": "每個大廳都有自己的廣場、頻道和聊天。你的好友和無限塔在所有大廳都相同。"
+  "Cada lobby tiene su plaza, sus canales y su chat. Tus amigos y la Endless Tower son los mismos en todos.": "每個大廳都有自己的廣場、頻道和聊天。你的好友和無限塔在所有大廳都相同。",
+  "Bonus del pet ×{m}": "寵物能力加成 ×{m}",
+  "Puesto: bonus ×{m}": "已裝備，寵物能力加成 ×{m}",
+  "{pet} tiene que estar en Cordial ({n}/{min}).": "{pet}的親密度須達「親密」（{n}/{min}）。",
+  "{pet} tiene que estar en Leal.": "{pet}的親密度須達「忠誠」。",
+  "Necesitas a {pet}.": "需先取得{pet}。",
+  "Vence a {m} {n} veces ({k}/{n}).": "需擊敗{m} {n} 次（{k}/{n}）。",
+  "Cada pet puede llevar su accesorio de RO cuando llega a Cordial. Los Puntos Kafra se ganan vendiendo equipo y cartas.": "寵物的親密度達到「親密」後，即可購買牠的專屬配件。出售裝備與卡片可獲得卡普拉點數。",
+  "Los pets de los jefes nacen evolucionando al de antes: con él en Leal y el jefe vencido varias veces. El de antes se queda.": "將前一階寵物培養至「忠誠」，並達到指定的頭目擊敗次數，即可進化為頭目寵物。原來的寵物也會保留。",
+  "Los pets son de la cuenta: su huevo cae de su monstruo y cada personaje lleva uno, que le sigue en partida y le da su bonus.": "所有角色共用寵物收藏。擊敗對應的魔物有機會獲得寵物蛋。每位角色可攜帶一隻寵物，跟隨作戰並提供能力加成。",
+  "¡Ha nacido {pet}! Llévalo desde la pestaña Pets del personaje.": "{pet}誕生了！到角色視窗的「寵物」分頁即可攜帶。",
+  "¡{pet} ya lleva su {acc}!": "{pet}已裝備{acc}。",
+  "Evoluciona de {pet}: con {pet} en Leal y {m} vencido {n} veces.": "由{pet}進化。需將{pet}培養至「忠誠」，並擊敗{m} {n} 次。",
+  "Su huevo cae de {m} ({where}).": "寵物蛋由{m}掉落（{where}）。",
+  "En Cordial, la Cuidadora de pets de la plaza te venderá su accesorio (bonus ×{m}).": "達到「親密」後，可向廣場的寵物管理員購買專屬配件（能力加成 ×{m}）。",
+  "Lo vende la Cuidadora de pets de la plaza (bonus ×{m}).": "可向廣場的寵物管理員購買（能力加成 ×{m}）。",
+  "{tier} en {n}": "達 {n} 時升為「{tier}」"
 }

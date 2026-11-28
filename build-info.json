@@ -1,9 +1,9 @@
 {
-  "version": "938ec3fab7879041c152",
-  "releaseVersion": "2.3.1",
-  "buildNumber": 26,
+  "version": "8d996fc13ccbf128785e",
+  "releaseVersion": "2.4.0",
+  "buildNumber": 27,
   "fileCount": 10845,
-  "totalBytes": 344725617,
+  "totalBytes": 344725340,
   "files": [
     {
       "path": ".nojekyll",
@@ -12,8 +12,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5032,
-      "sha256": "13829327c7879c0a130d8e84b7c55c6b68b5a1dfc07cec8256390f95461e2e42"
+      "bytes": 5704,
+      "sha256": "af9925338a75bdb715592607dd152b6437456766ad65456b75956742db549368"
     },
     {
       "path": "app-manifest.json",
@@ -53842,8 +53842,8 @@
     },
     {
       "path": "web/build/main-2n_YvaNQ.js",
-      "bytes": 1372017,
-      "sha256": "16c55afd91dcebf11f026a9f855fd89e031caefe104a139a7ea8b8d7085a6af4"
+      "bytes": 1371489,
+      "sha256": "51a6ec8fa490238844ec0b1697496aa8aaef1929fc52e1a6f3d7d538e4426460"
     },
     {
       "path": "web/build/main-BT36rxL4.css",
@@ -53852,8 +53852,8 @@
     },
     {
       "path": "web/build/soul_linker-BNTKE1pN.js",
-      "bytes": 2822190,
-      "sha256": "e26fe650910eef4853955e66aca4bc447c9d5e51d2400cf403e27ca72806963c"
+      "bytes": 2821769,
+      "sha256": "2d6c667f04bc329bcc0d98ff006e680259c2cf56d4481ccbea5b8a9793430f85"
     },
     {
       "path": "web/build/webworkerAll-CxShr0sz.js",

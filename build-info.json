@@ -1,9 +1,9 @@
 {
-  "version": "f5f2a9b2770fd96d3821",
-  "releaseVersion": "2.5.1",
-  "buildNumber": 29,
+  "version": "965d6811bce0ffc66e8b",
+  "releaseVersion": "2.5.2",
+  "buildNumber": 30,
   "fileCount": 10845,
-  "totalBytes": 344738793,
+  "totalBytes": 344742108,
   "files": [
     {
       "path": ".nojekyll",
@@ -12,8 +12,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 6453,
-      "sha256": "cb16d57a7669dc84eaf38cc1d5e3ad09f5c3b4e7a7132e042b0e526b4dc8e210"
+      "bytes": 6720,
+      "sha256": "7a949a6ad63112bce75d4192575dc5584735d45a2c56b5889a3f060752942307"
     },
     {
       "path": "app-manifest.json",
@@ -53842,8 +53842,8 @@
     },
     {
       "path": "web/build/main-2n_YvaNQ.js",
-      "bytes": 1383158,
-      "sha256": "cf23730dd5b46afa179d484956d2afd0d25b0b875fa16539bdc8f4598356c8ab"
+      "bytes": 1384488,
+      "sha256": "2a4e148ded433f78fb2cc0374659d981b755eeb180d0341bcba28dee966a656b"
     },
     {
       "path": "web/build/main-BT36rxL4.css",
@@ -53867,8 +53867,8 @@
     },
     {
       "path": "web/index.html",
-      "bytes": 39212,
-      "sha256": "4e73637ed51941cf145df228c64b802b6037fcfe57af62b3198ba37d9872b222"
+      "bytes": 39176,
+      "sha256": "5f1a2f4a213ee1cbd6dfc3afc91d16fc09d253c0dc909c062c056d1c25c23462"
     },
     {
       "path": "web/offline/branding.css",
@@ -54172,8 +54172,8 @@
     },
     {
       "path": "web/offline/localization.css",
-      "bytes": 1818,
-      "sha256": "fbe5cfc4b76086d9e71170f1a496ebef237e10edc39b07da18f0b55108faabda"
+      "bytes": 3572,
+      "sha256": "f71ca0f0656c8e4d30cc34a21dfc343b6bf28b37619a9b538c16220c47dca882"
     },
     {
       "path": "web/offline/skill-glyphs/asura1.png",

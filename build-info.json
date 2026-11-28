@@ -1,9 +1,9 @@
 {
-  "version": "8d996fc13ccbf128785e",
-  "releaseVersion": "2.4.0",
-  "buildNumber": 27,
+  "version": "e75b776eef8dabb86fe4",
+  "releaseVersion": "2.5.0",
+  "buildNumber": 28,
   "fileCount": 10845,
-  "totalBytes": 344725340,
+  "totalBytes": 344738438,
   "files": [
     {
       "path": ".nojekyll",
@@ -12,8 +12,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5704,
-      "sha256": "af9925338a75bdb715592607dd152b6437456766ad65456b75956742db549368"
+      "bytes": 6180,
+      "sha256": "a9438a93fd303d78d2f4770600b025e9afa027c7f86326e41d0c3ffab8f3fddd"
     },
     {
       "path": "app-manifest.json",
@@ -53842,8 +53842,8 @@
     },
     {
       "path": "web/build/main-2n_YvaNQ.js",
-      "bytes": 1371489,
-      "sha256": "51a6ec8fa490238844ec0b1697496aa8aaef1929fc52e1a6f3d7d538e4426460"
+      "bytes": 1384111,
+      "sha256": "5e7cd8e60f88575de6bdba9c6637ea5e9880427dfaf02369b780a66dd43b83dc"
     },
     {
       "path": "web/build/main-BT36rxL4.css",
